@@ -32,6 +32,10 @@ Alle Dateien kommen in diesen Pfad:
 
 ```
 workshop-[thema]/
+├── .gitignore
+├── .github/
+│   └── workflows/
+│       └── static.yml
 ├── index.yaml
 ├── index.html
 ├── README.md
@@ -42,6 +46,56 @@ workshop-[thema]/
 │       ├── lessons.yaml
 │       ├── thumbnail.svg
 │       └── 01-[titel]/content.yaml ... N-[titel]/content.yaml
+```
+
+### .gitignore (Pflicht — immer erstellen)
+```
+.DS_Store
+*.swp
+*~
+.vscode/
+.idea/
+```
+
+### .github/workflows/static.yml (Pflicht — immer erstellen)
+```yaml
+name: Deploy to Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
 ## Schritt 3 — Dateien generieren

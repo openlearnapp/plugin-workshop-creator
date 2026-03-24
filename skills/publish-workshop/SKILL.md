@@ -24,8 +24,28 @@ gh repo view openlearnapp/workshop-{name} 2>/dev/null
 gh repo create openlearnapp/workshop-{name} --public --description "Open Learn Workshop: ..."
 ```
 
-### b) GitHub Pages Workflow erstellen
-Erstelle `.github/workflows/static.yml` im Workshop-Ordner **vor** dem ersten Commit:
+### b) .gitignore und .DS_Store bereinigen
+Vor allem anderen — sicherstellen dass keine OS-Artefakte ins Repo kommen:
+
+1. `.gitignore` erstellen falls nicht vorhanden:
+```
+.DS_Store
+*.swp
+*~
+.vscode/
+.idea/
+```
+
+2. Bestehende `.DS_Store` Dateien entfernen:
+```bash
+find /Users/reza/Github/openlearnapp/workshops/workshop-{name} -name ".DS_Store" -delete
+# Falls bereits im Git-Index:
+cd /Users/reza/Github/openlearnapp/workshops/workshop-{name}
+git rm --cached -r $(git ls-files -i --exclude-standard) 2>/dev/null || true
+```
+
+### c) GitHub Pages Workflow erstellen
+Erstelle `.github/workflows/static.yml` im Workshop-Ordner **vor** dem ersten Commit (falls nicht bereits von `/workshop-creator` erstellt):
 ```yaml
 name: Deploy to Pages
 
@@ -66,7 +86,7 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-### c) Dateien committen und pushen
+### d) Dateien committen und pushen
 ```bash
 cd /Users/reza/Github/openlearnapp/workshops/workshop-{name}
 git init && git remote add origin https://github.com/openlearnapp/workshop-{name}.git
@@ -74,19 +94,22 @@ git add -A && git commit -m "feat: {name} workshop — {N} lessons, {languages}"
 git branch -M main && git push -u origin main
 ```
 
-### d) GitHub Pages aktivieren
+### e) GitHub Pages aktivieren
 ```bash
 gh api repos/openlearnapp/workshop-{name}/pages -X POST -f build_type=workflow 2>/dev/null || true
 ```
 
-### e) Default-Sources aktualisieren
-Prüfe ob die URL bereits in `public/default-sources.yaml` steht:
+### f) Default-Sources aktualisieren (Landing Page)
+Prüfe ob die URL bereits in `/Users/reza/Github/openlearnapp/openlearnapp.github.io/public/default-sources.yaml` steht:
 ```yaml
-- https://openlearnapp.github.io/workshop-{name}/index.yaml
+- https://open-learn.app/workshop-{name}/index.yaml
 ```
-Falls nicht: hinzufügen, committen, PR erstellen.
+Falls nicht vorhanden:
+1. URL zur `default-sources.yaml` hinzufügen
+2. Committen und pushen (oder PR erstellen)
+3. **Ohne diesen Schritt erscheint der Workshop NICHT auf der Landing Page!**
 
-### f) Status aktualisieren
+### g) Status aktualisieren
 In `workshop-status.md`: Status → `✅ Im Projekt`
 
 ## Regeln
