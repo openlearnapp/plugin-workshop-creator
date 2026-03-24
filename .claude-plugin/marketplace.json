@@ -1,0 +1,16 @@
+{
+  "name": "openlearn-workshop-tools",
+  "description": "Workshop-Erstellung und -Verwaltung für die OpenLearn-Plattform",
+  "owner": {
+    "name": "OpenLearn",
+    "url": "https://open-learn.app"
+  },
+  "plugins": [
+    {
+      "name": "workshop-creator",
+      "source": "./",
+      "description": "Erstellt, importiert und verwaltet YAML-Workshops für open-learn.app",
+      "version": "1.1.0"
+    }
+  ]
+}
