@@ -38,14 +38,18 @@ workshop-[thema]/
 │       └── static.yml
 ├── index.yaml
 ├── index.html
-├── README.md
+├── README.md                   # Mit Landing Page + Start Workshop Links
 ├── CONTRIBUTING.md
 ├── [sprache]/                  # z.B. deutsch/
 │   ├── workshops.yaml
 │   └── [thema]/
 │       ├── lessons.yaml
-│       ├── thumbnail.svg
-│       └── 01-[titel]/content.yaml ... N-[titel]/content.yaml
+│       ├── thumbnail.svg       # 1280×800 Workshop-Thumbnail
+│       ├── 01-[titel]/
+│       │   ├── content.yaml
+│       │   └── diagram.svg     # Optional: Lesson-Bild (IT/Wissenschaft)
+│       └── N-[titel]/
+│           └── content.yaml
 ```
 
 ### .gitignore (Pflicht — immer erstellen)
@@ -114,7 +118,7 @@ Weitere Sprachen werden später von `/translate-workshop` hier ergänzt.
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://open-learn.app/#/add?source=https://openlearnapp.github.io/workshop-[thema]/">
+  <meta http-equiv="refresh" content="0; url=https://open-learn.app/#/add?source=https://open-learn.app/workshop-[thema]/">
   <title>[Thema] — Open Learn</title>
 </head>
 <body><p>Weiterleitung zu Open Learn...</p></body>
@@ -202,6 +206,36 @@ sections:
             correct: true
 ```
 
+### README.md (Pflicht — immer erstellen)
+```markdown
+# Workshop: [Thema-Titel]
+
+> **[Landing Page](https://open-learn.app/workshop-[thema]/)** · **[Start Workshop](https://open-learn.app/#/add?source=https://open-learn.app/workshop-[thema]/)**
+
+[1-2 Sätze Beschreibung] für [open-learn.app](https://open-learn.app).
+
+## Inhalt
+- [N] Lektionen ([Zielgruppe])
+- [M] Sprachen: [Liste]
+- Interaktive Wissens-Checks in jeder Lektion
+
+## Lektionen
+1. **[Titel]** — [Kurzbeschreibung]
+2. **[Titel]** — [Kurzbeschreibung]
+...
+
+## Sprachen
+- [Liste der verfügbaren Sprachen mit Interface-Angabe]
+
+## Links
+- [Open Learn Platform](https://open-learn.app)
+- [OpenLearn GitHub](https://github.com/openlearnapp)
+```
+
+**Wichtig:** Die Links im `> **[Landing Page]...`-Block müssen exakt dem Schema entsprechen:
+- Landing Page: `https://open-learn.app/workshop-[thema]/`
+- Start Workshop: `https://open-learn.app/#/add?source=https://open-learn.app/workshop-[thema]/`
+
 ### CONTRIBUTING.md
 Erstelle eine Übersetzungs-Anleitung für Community-Contributors:
 
@@ -265,13 +299,69 @@ Erstelle einen PR mit deiner Übersetzung. Bitte prüfe vorher:
 - [ ] Keine `rel`-IDs verändert (erster Wert)
 ```
 
-### thumbnail.svg
+### thumbnail.svg (Pflicht — pro Sprache/Workshop-Ordner)
 1280×800 SVG mit:
-- Farbverlauf-Hintergrund passend zum Workshop
-- Thematisches Symbol (SVG-Formen, kein externes Bild)
-- Großer Titel-Text
+- Farbverlauf-Hintergrund passend zur `primaryColor` des Workshops
+- Thematisches Symbol als SVG-Pfade (kein externes Bild, kein `<image>`-Tag)
+- Großer Titel-Text (Workshop-Titel in der jeweiligen Sprache)
 - Untertitel "[N] Lektionen · Open Learn"
 - Modern, clean, kein Foto
+- OPEN LEARN Branding unten
+
+**Beispiel-Vorlage:**
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="[helle Farbe]"/>
+      <stop offset="100%" stop-color="[dunkle Farbe]"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="800" fill="url(#bg)" rx="24"/>
+  <rect x="240" y="120" width="800" height="560" fill="white" fill-opacity="0.95" rx="32"/>
+  <!-- Thematisches Symbol als SVG-Pfade hier -->
+  <text x="640" y="420" text-anchor="middle" font-family="system-ui,sans-serif"
+        font-size="56" font-weight="700" fill="[primaryColor]">[Workshop-Titel]</text>
+  <text x="640" y="480" text-anchor="middle" font-family="system-ui,sans-serif"
+        font-size="28" fill="#64748b">[N] Lektionen · Open Learn</text>
+</svg>
+```
+
+Das thematische Symbol soll zum Workshop-Thema passen:
+- **IT/Code:** Terminal-Icon, Zahnräder, Code-Klammern, Server-Rack
+- **Sprachen:** Sprechblasen, Flaggen-Formen, Buchstaben der Zielsprache
+- **Wissenschaft:** Atome, Reagenzgläser, DNA-Helix
+- **Musik:** Noten, Notenschlüssel, Wellenformen
+- **Geschichte:** Bücher, Zeitleisten, Gebäude-Silhouetten
+
+### Lesson-Bilder generieren (wo sinnvoll)
+
+Für Workshops mit visuellen Themen erstelle SVG-Diagramme als Lesson-Header:
+
+**Wann Lesson-Bilder erstellen:**
+- IT/Code: Architektur-Diagramme, Ablauf-Diagramme, Netzwerk-Topologien
+- Naturwissenschaft: Schematische Darstellungen, Prozessdiagramme
+- Musik: Notensysteme, Akkord-Diagramme
+- **NICHT** für reine Text-/Sprach-Workshops
+
+**Format:** SVG-Dateien im Lesson-Ordner, 16:9 Seitenverhältnis (z.B. 960×540)
+```
+[sprache]/[thema]/[lektion]/diagram.svg
+```
+
+In `content.yaml` referenzieren:
+```yaml
+image: "diagram.svg"
+image_caption: "[Beschreibung des Diagramms]"
+```
+
+**Auf Section-Ebene:** Für Schritt-für-Schritt-Anleitungen einzelne Diagramme pro Section:
+```yaml
+sections:
+  - title: "Docker-Architektur"
+    image: "architecture.svg"
+    image_caption: "Docker Engine, Images und Container"
+```
 
 ## Qualitätsregeln
 

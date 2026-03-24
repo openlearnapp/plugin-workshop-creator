@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.6.0
+- feat: add `/update-workshop` skill — idempotent updates for existing workshops (schema migration, missing README links, thumbnails, lesson images, terminal-sim, labels)
+- feat: workshop-creator now generates README.md with Landing Page + Start Workshop links
+- feat: workshop-creator generates SVG lesson diagrams for IT/science workshops
+- feat: improved thumbnail.svg generation with SVG template and thematic symbol guide
+- feat: validate-workshop checks README links, thumbnails, and media coverage
+- feat: publish-workshop creates GitHub issue for Pages settings (human checklist)
+- docs: updated README with new skill table, workflow diagram, and structure tree
+
 ## 1.5.0
 - chore: add CLAUDE.md with workflow rules (always PRs, version bumps, changelog, docs updates)
 - chore: add CHANGELOG.md with full version history

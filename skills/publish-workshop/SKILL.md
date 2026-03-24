@@ -109,10 +109,41 @@ Falls nicht vorhanden:
 2. Committen und pushen (oder PR erstellen)
 3. **Ohne diesen Schritt erscheint der Workshop NICHT auf der Landing Page!**
 
-### g) Status aktualisieren
+### g) GitHub Issue für Pages-Einstellungen erstellen
+
+GitHub Pages braucht manuelle Einstellungen die nur ein Repo-Admin machen kann. Erstelle ein Issue als Checkliste:
+
+```bash
+gh issue create --repo openlearnapp/workshop-{name} \
+  --title "GitHub Pages einrichten" \
+  --body "$(cat <<'EOF'
+## GitHub Pages Einstellungen
+
+Bitte im Repository unter **Settings → Pages** prüfen:
+
+- [ ] **Source:** "GitHub Actions" ausgewählt (nicht "Deploy from a branch")
+- [ ] **Custom domain:** `open-learn.app` eingetragen (falls gewünscht)
+- [ ] **Enforce HTTPS:** aktiviert
+- [ ] Erste Deployment-Action erfolgreich durchgelaufen (Actions-Tab prüfen)
+
+### Testen
+
+Nach Aktivierung (1-2 Minuten warten):
+1. https://open-learn.app/workshop-{name}/ → sollte Workshop-Inhalte ausliefern
+2. https://open-learn.app/#/add?source=https://open-learn.app/workshop-{name}/ → Workshop wird geladen
+
+### Falls Custom Domain gewünscht
+In `default-sources.yaml` der Hauptapp die URL anpassen:
+`https://open-learn.app/workshop-{name}/index.yaml`
+EOF
+)"
+```
+
+### h) Status aktualisieren
 In `workshop-status.md`: Status → `✅ Im Projekt`
 
 ## Regeln
 - NIEMALS ohne Reza's OK mergen
 - Immer zeigen was gemacht wird
 - GitHub Pages braucht 1-2 Minuten nach Push
+- Issue für Pages-Einstellungen wird automatisch erstellt
