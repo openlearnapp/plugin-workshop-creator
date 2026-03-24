@@ -112,17 +112,24 @@ workshops:
 
 ### content.yaml (pro Lektion)
 ```yaml
-version: 1
+version: 2
 number: [N]
 title: "[Titel]"
 description: "[Ein Satz]"
+image: "[optionaler Pfad oder URL]"
+image_caption: "[optionale Bildunterschrift]"
 sections:
   - title: "[Abschnittstitel]"
+    video: "[optionale YouTube/Vimeo-URL]"
+    image: "[optionaler Pfad oder URL]"
+    image_caption: "[optionale Bildunterschrift]"
     explanation: |
       [Markdown mit **fett**, Tabellen, Listen]
     examples:
       - q: "[Frage/Befehl/Quellsatz]"
         a: "[Antwort/Erklärung]"
+        image: "[optionaler Pfad oder URL]"
+        image_caption: "[optionale Bildunterschrift]"
         labels: ["[Kategorie]"]
         rel:
           - ["[eindeutige-id]", "[bedeutung]", "[kontext]"]
@@ -135,24 +142,27 @@ sections:
       - q: "[Frage]"
         type: input
         a: "[korrekte Antwort]"
+        # Oder mehrere akzeptierte Antworten:
+        # a:
+        #   - "[Antwort 1]"
+        #   - "[Antwort 2]"
       - q: "[Frage]"
         type: select
         options:
-          - "[Option A]"
-          - "[Option B]"
-          - "[Option C]"
-          - "[Option D]"
-        a: "[korrekte Option]"
+          - text: "[Option A]"
+            correct: true
+          - text: "[Option B]"
+          - text: "[Option C]"
+          - text: "[Option D]"
       - q: "[Frage]"
         type: multiple-choice
         options:
-          - "[Option 1]"
-          - "[Option 2]"
-          - "[Option 3]"
-          - "[Option 4]"
-        a:
-          - "[korrekte 1]"
-          - "[korrekte 2]"
+          - text: "[Option 1]"
+            correct: true
+          - text: "[Option 2]"
+          - text: "[Option 3]"
+          - text: "[Option 4]"
+            correct: true
 ```
 
 ### thumbnail.svg
@@ -166,11 +176,36 @@ sections:
 ## Qualitätsregeln
 
 ### Pflicht
-- Mindestens 10 Lektionen, besser 12
-- 2–4 Sections pro Lektion, 4–8 Examples pro Section
-- Letzte Section = interaktiver Check (1× input, 2× select, 1× multiple-choice)
+- Mindestens 10 Lektionen, besser 12 (für Sprach-Workshops: bis zu 50 in 5 Phasen möglich)
+- 4–6 Sections pro Lektion (Anfänger: 4–5, Fortgeschrittene: 5–6), 3–5 Examples pro Section
+- Letzte Section = interaktiver Check (1× input, 2× select, 1× multiple-choice) mit `correct: true` Markern
 - Jede `rel`-ID nur einmal im gesamten Workshop
 - ALLE angegebenen Interface-Sprachen erstellen (q:-Felder gleich, a:/explanation: übersetzt)
+- `version: 2` in jeder content.yaml
+- `description`-Feld in jeder Lektion (wird auf Lesson-Karten angezeigt)
+
+### Bilder und Medien (optional)
+- **Lesson-Bild:** `image` + `image_caption` auf Top-Level — wird als Header und Thumbnail angezeigt (min. 640×360, 16:9)
+- **Section-Bild:** `image` + `image_caption` auf Section-Ebene — über der Erklärung (min. 800px breit)
+- **Example-Bild:** `image` + `image_caption` auf Example-Ebene — Thumbnail neben der Frage
+- **Video:** `video`-Feld auf Section-Ebene (YouTube/Vimeo-URL) — wird als Embed angezeigt
+- Bilder und Videos sind optional, aber besonders für Schritt-für-Schritt-Anleitungen und visuelle Themen empfohlen
+
+### Coach-Konfiguration (optional)
+Falls gewünscht, in `workshops.yaml` ergänzen:
+```yaml
+coach:
+  email: "coach@example.com"
+  name: "Coach-Name"
+```
+Aktiviert den "Ergebnisse per E-Mail senden"-Button auf der Assessment-Seite.
+
+### Labels systematisch einsetzen
+- Labels kategorisieren Examples und ermöglichen Filterung
+- Für Sprachen: Grammatik-Konzepte (`Präsens`, `Futur`, `Passiv`, `Konjunktiv`, etc.)
+- Für IT/Code: Kategorien (`Basics`, `Netzwerk`, `Dateisystem`, `Prozesse`, etc.)
+- Für Wissens-Themen: Schwierigkeitsgrad oder Unterthema
+- Labels konsistent über alle Lektionen verwenden
 
 ### Lernmethoden (immer anwenden)
 - **Active Recall:** Situation vor der Frage, nie Antwort in der Frage
@@ -178,6 +213,13 @@ sections:
 - **Desirable Difficulty:** Fragen bewusst so stellen dass man nachdenken muss
 - **Narrative Verankerung:** Roter Faden über alle Lektionen aufbauen
 - **Interleaving:** Themen in späteren Lektionen mischen
+
+### Für Sprach-Workshops zusätzlich
+- **Verben zuerst:** Die 50 häufigsten Verben mit Konjugationen als Grundlage
+- Vokabeln über Verb-Kontexte einführen (nicht isoliert)
+- Phase 1 (L1–15): Verb-Grundlagen → Phase 2 (L16–25): Zeiten → Phase 3 (L26–35): Fortgeschrittene Grammatik
+- Geschlechter in `rel`-Items angeben: `["Katze", "die Katze (f)", "Substantiv"]`
+- Review-Lektionen alle 5 Lektionen einplanen
 
 ### Für IT/Code-Workshops zusätzlich
 - `q:` = exakter Befehl/Code
