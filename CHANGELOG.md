@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.1
+- docs: add architecture diagram showing Claude Code, Plugin, Workshops, GitHub Pages, and Open Learn Platform
+- docs: explain component connections and full authoring-to-learning cycle
+
 ## 1.6.0
 - feat: add `/update-workshop` skill — idempotent updates for existing workshops (schema migration, missing README links, thumbnails, lesson images, terminal-sim, labels)
 - feat: workshop-creator now generates README.md with Landing Page + Start Workshop links
