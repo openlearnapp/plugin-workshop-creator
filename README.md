@@ -27,6 +27,81 @@ git clone https://github.com/openlearnapp/plugin-workshop-creator .claude/plugin
 | **check-workshops** | `/check-workshops` | Show status of all workshops |
 | **import-workshop** | `/import-workshop` | Import a finished workshop from staging into the project |
 
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  Claude Code (CLI)                                                  │
+│                                                                     │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  Workshop Plugin                                              │  │
+│  │                                                               │  │
+│  │  /workshop-creator  → Create YAML lessons, thumbnails, SVGs   │  │
+│  │  /translate-workshop → Add languages                          │  │
+│  │  /extend-workshop    → Add more lessons                       │  │
+│  │  /update-workshop    → Fix & upgrade existing workshops       │  │
+│  │  /validate-workshop  → Check schema & quality                 │  │
+│  │  /publish-workshop   → Push to GitHub + enable Pages          │  │
+│  └──────────────────────────────┬────────────────────────────────┘  │
+└─────────────────────────────────┼───────────────────────────────────┘
+                                  │ generates
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  Workshop Repository (e.g. workshop-docker)                         │
+│                                                                     │
+│  index.yaml ─── deutsch/workshops.yaml ─── docker/lessons.yaml      │
+│                                              ├── 01-*/content.yaml  │
+│                                              ├── 02-*/content.yaml  │
+│                                              └── thumbnail.svg      │
+│  + README.md, CONTRIBUTING.md, .github/workflows/static.yml         │
+└─────────────────────────────────┬───────────────────────────────────┘
+                                  │ git push
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  GitHub Pages  (static hosting)                                     │
+│                                                                     │
+│  https://open-learn.app/workshop-docker/                            │
+│  ├── index.yaml              ← entry point for the platform        │
+│  ├── index.html              ← redirect to open-learn.app          │
+│  └── deutsch/docker/01-*/content.yaml                               │
+└─────────────────────────────────┬───────────────────────────────────┘
+                                  │ fetches YAML at runtime
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  Open Learn Platform  (https://open-learn.app)                      │
+│                                                                     │
+│  Vue.js SPA that loads workshops from any static URL:               │
+│                                                                     │
+│  1. Learner clicks share link or visits landing page                │
+│  2. App fetches index.yaml → discovers languages                    │
+│  3. App fetches workshops.yaml → discovers workshops                │
+│  4. App fetches lessons.yaml → loads lesson list                    │
+│  5. App fetches content.yaml → renders lessons with:                │
+│     • Interactive assessments (input, select, multiple-choice)      │
+│     • Vocabulary tracking (rel-IDs across lessons)                  │
+│     • Audio playback (MP3 per example)                              │
+│     • Labels for filtering                                          │
+│     • Progress saved in browser (localStorage)                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### How it connects
+
+**Claude Code + Plugin** is the authoring tool. The plugin's skills generate complete YAML workshop content — lessons, assessments, thumbnails, diagrams — following the Open Learn schema. Everything stays local until you run `/publish-workshop`.
+
+**Workshop Repositories** are the output. Each workshop is a standalone GitHub repo with YAML files, SVG assets, and a GitHub Actions workflow for deployment. The repo is self-contained — no build step, no dependencies.
+
+**GitHub Pages** serves the raw YAML files as a static site. The `index.html` at the root redirects visitors to the platform. The custom domain `open-learn.app` maps to the GitHub Pages sites, so `open-learn.app/workshop-docker/` serves the Docker workshop files.
+
+**Open Learn Platform** is the learner-facing app. It never bundles workshop content — instead it fetches YAML files at runtime from any URL. When a learner clicks a share link like `open-learn.app/#/add?source=open-learn.app/workshop-docker/`, the app discovers and loads the entire workshop. This decoupled architecture means workshops can be hosted anywhere (GitHub Pages, IPFS, custom servers) and the platform picks them up automatically.
+
+**The full cycle:**
+```
+Author writes → Plugin generates YAML → GitHub hosts files → Platform loads at runtime → Learner studies
+         ↑                                                                                    │
+         └── /update-workshop can re-run on any existing workshop (idempotent) ───────────────┘
+```
+
 ## Workflow
 
 ```
