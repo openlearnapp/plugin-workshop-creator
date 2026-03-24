@@ -21,6 +21,7 @@ git clone https://github.com/openlearnapp/plugin-workshop-creator .claude/plugin
 | **workshop-creator** | `/workshop-creator <topic>` | Create a workshop in one language with lessons, assessments, and thumbnails |
 | **translate-workshop** | `/translate-workshop <name> --lang en` | Add a new language to an existing workshop |
 | **extend-workshop** | `/extend-workshop <name> --lessons 11-20` | Add more lessons to an existing workshop |
+| **validate-workshop** | `/validate-workshop [name]` | Validate structure, YAML, rel-IDs, and schema compliance |
 | **publish-workshop** | `/publish-workshop [name]` | Publish to GitHub and deploy via GitHub Pages |
 | **check-workshops** | `/check-workshops` | Show status of all workshops |
 
@@ -33,7 +34,9 @@ git clone https://github.com/openlearnapp/plugin-workshop-creator .claude/plugin
        ↓
 /extend-workshop        Add more lessons over time
        ↓
-/check-workshops        Review status
+/validate-workshop      Check structure, schema, rel-IDs
+       ↓
+/check-workshops        Review status across all workshops
        ↓
 /publish-workshop       Deploy to GitHub Pages → live on open-learn.app
 ```

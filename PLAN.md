@@ -4,18 +4,7 @@ Abgleich des Plugins mit der OpenLearn-Plattform-Dokumentation.
 
 ## Offene Punkte
 
-### 1. YAML-Validierung nach Erstellung
-
-Die Plattform-Doku listet häufige Fehler auf (bad indentation, fehlende content.yaml, falsche Folder-Referenzen, ungültige Sprachcodes). Das Plugin hat keine Validierung.
-
-**Was fehlt:**
-- Nach Erstellung alle YAML-Dateien auf Syntax prüfen
-- Prüfen ob alle in `lessons.yaml` gelisteten Ordner existieren und `content.yaml` enthalten
-- Prüfen ob Sprachcodes gültige BCP 47 Codes sind
-- Prüfen ob `rel`-IDs tatsächlich eindeutig sind
-- Könnte ein eigener `/validate-workshop` Skill werden
-
-**Aufwand:** Mittel
+Keine offenen Punkte — alle identifizierten Verbesserungen wurden umgesetzt.
 
 ## Erledigte Punkte
 
@@ -34,3 +23,5 @@ Die Plattform-Doku listet häufige Fehler auf (bad indentation, fehlende content
 - ~~/extend-workshop Skill erstellt~~ (v1.2.0)
 - ~~CONTRIBUTING.md Template~~ (v1.2.0)
 - ~~import-workshop → publish-workshop umbenannt~~ (v1.2.0)
+- ~~/validate-workshop Skill erstellt~~ (v1.3.0)
+- ~~plugin.json mit repository, license, keywords erweitert~~ (v1.3.0)
