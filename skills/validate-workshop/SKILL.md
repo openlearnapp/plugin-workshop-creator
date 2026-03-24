@@ -86,7 +86,14 @@ Falls mehrere Sprachen vorhanden:
 - [ ] Gleiche Lektionsnummern (`number`-Feld) in jeder Sprache
 - [ ] Gleiche `rel`-IDs über Sprachen hinweg (erster Wert)
 
-### g) Qualitätsprüfung
+### g) Deployment-Bereitschaft
+
+- [ ] `.gitignore` existiert und enthält `.DS_Store`
+- [ ] Keine `.DS_Store` Dateien im Workshop-Ordner vorhanden
+- [ ] `.github/workflows/static.yml` existiert (GitHub Pages Deployment)
+- [ ] Workshop-URL in `/Users/reza/Github/openlearnapp/openlearnapp.github.io/public/default-sources.yaml` vorhanden (Landing Page)
+
+### h) Qualitätsprüfung
 
 - [ ] Mindestens 10 Lektionen
 - [ ] Jede Lektion hat mindestens 4 Sections
@@ -104,6 +111,7 @@ Falls mehrere Sprachen vorhanden:
 ✅ rel-IDs                [Y] eindeutige IDs
 ✅ Sprachcodes            Alle gültig
 ✅ Sprach-Konsistenz      [N] Sprachen synchron
+✅ Deployment             .gitignore ✓, Workflow ✓, Landing Page ✓
 ✅ Qualität               [M] Lektionen, [S] Sections/Lektion
 
 Ergebnis: ✅ Workshop ist bereit zum Veröffentlichen
@@ -119,6 +127,7 @@ Bei Fehlern:
 ⚠️  rel-IDs               3 doppelte IDs: "ls", "cd", "pwd"
 ✅ Sprachcodes            Alle gültig
 ❌ Sprach-Konsistenz      deutsch: 10 Lektionen, english: 8 Lektionen
+❌ Deployment             .DS_Store gefunden, kein Workflow, nicht in Landing Page
 ✅ Qualität               10 Lektionen, 5 Sections/Lektion
 
 Ergebnis: ❌ 2 Fehler, 1 Warnung — bitte beheben vor /publish-workshop
