@@ -1,6 +1,6 @@
 # Workshop Creator Plugin for Claude Code
 
-Claude Code Plugin for the [OpenLearn Platform](https://open-learn.app) — generates complete YAML workshop content in multiple languages using AI.
+Claude Code Plugin for the [OpenLearn Platform](https://open-learn.app) — generates complete YAML workshop content using AI.
 
 ## Installation
 
@@ -18,54 +18,89 @@ git clone https://github.com/openlearnapp/plugin-workshop-creator .claude/plugin
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| **workshop-creator** | `/workshop-creator <topic>` | Generate a complete workshop with lessons, assessments, and thumbnails |
-| **import-workshop** | `/import-workshop [name]` | Import a finished workshop into GitHub and deploy via GitHub Pages |
-| **check-workshops** | `/check-workshops` | Show status of all workshops (local, online, sources) |
+| **workshop-creator** | `/workshop-creator <topic>` | Create a workshop in one language with lessons, assessments, and thumbnails |
+| **translate-workshop** | `/translate-workshop <name> --lang en` | Add a new language to an existing workshop |
+| **extend-workshop** | `/extend-workshop <name> --lessons 11-20` | Add more lessons to an existing workshop |
+| **validate-workshop** | `/validate-workshop [name]` | Validate structure, YAML, rel-IDs, and schema compliance |
+| **publish-workshop** | `/publish-workshop [name]` | Publish to GitHub and deploy via GitHub Pages |
+| **check-workshops** | `/check-workshops` | Show status of all workshops |
+
+## Workflow
+
+```
+/workshop-creator       Create workshop in one language
+       ↓
+/translate-workshop     Add more languages (or let the community contribute)
+       ↓
+/extend-workshop        Add more lessons over time
+       ↓
+/validate-workshop      Check structure, schema, rel-IDs
+       ↓
+/check-workshops        Review status across all workshops
+       ↓
+/publish-workshop       Deploy to GitHub Pages → live on open-learn.app
+```
 
 ## Quick Start
 
-### 1. Workshop erstellen
+### 1. Workshop erstellen (eine Sprache)
 
 ```
 /workshop-creator Linux Grundlagen
 ```
 
-Claude fragt nach fehlenden Details (Sprachen, Lektionsanzahl, Zielgruppe) und generiert dann den kompletten Workshop.
+Claude erstellt den Workshop zunächst in **einer Sprache**. So kann der Inhalt erst ausreifen, bevor weitere Sprachen hinzukommen.
 
-### 2. Status prüfen
-
-```
-/check-workshops
-```
-
-Zeigt eine Übersicht aller Workshops: lokal vorhanden, online, Sprachen, Default-Sources.
-
-### 3. Workshop live schalten
+### 2. Weitere Sprache hinzufügen
 
 ```
-/import-workshop linux-grundlagen
+/translate-workshop linux-grundlagen --lang en
 ```
 
-Erstellt ein GitHub-Repo, richtet GitHub Pages ein und deployt den Workshop automatisch.
+Übersetzt alle Lektionen: `a`-Felder, `explanation`, `title`, `description`. Die `q`-Felder und `rel`-IDs bleiben konsistent.
+
+### 3. Workshop erweitern
+
+```
+/extend-workshop linux-grundlagen --lessons 11-20
+```
+
+Fügt neue Lektionen hinzu, ohne bestehende zu verändern. Kennt alle bisherigen `rel`-IDs und baut inhaltlich darauf auf.
+
+### 4. Workshop veröffentlichen
+
+```
+/publish-workshop linux-grundlagen
+```
+
+Erstellt GitHub-Repo, GitHub Pages Workflow, und aktualisiert Default-Sources.
+
+## Community-Übersetzungen
+
+Jeder Workshop enthält eine `CONTRIBUTING.md` mit Anleitung für Contributors. Eine neue Sprache hinzuzufügen ist einfach:
+
+1. Sprach-Ordner kopieren und umbenennen
+2. Markierte Felder übersetzen (`a`, `explanation`, `title`, `description`)
+3. `index.yaml` um die neue Sprache erweitern
+4. Pull Request erstellen
+
+Felder die **nicht** übersetzt werden: `q` (bei Sprach-Workshops), `rel`-IDs, `labels`, `type`, `correct`.
 
 ## Was wird generiert?
 
-Ein vollständiger Workshop mit:
-
 - **10–50 strukturierte Lektionen** (Schema Version 2)
-- **4 Interface-Sprachen** (Deutsch, Englisch, Farsi, Arabisch)
 - **Interaktive Assessments** mit `correct`-Markern (input, select, multiple-choice)
 - **SVG-Thumbnails** pro Workshop
 - **Labels** für Filterung und Kategorisierung
-- **Terminal-Simulatoren** für IT/Code-Workshops
+- **CONTRIBUTING.md** für Community-Übersetzungen
 - **GitHub Pages Workflow** für automatisches Deployment
-- **Lernmethoden:** Active Recall, Spaced Repetition, Desirable Difficulty, Narrative Anchoring, Interleaving
 
 ### Optionale Features
 
-- **Bilder** auf Lesson-, Section- und Example-Ebene (`image` + `image_caption`)
-- **Videos** auf Section-Ebene (YouTube/Vimeo-Einbettung)
+- **Bilder** auf Lesson-, Section- und Example-Ebene
+- **Videos** auf Section-Ebene (YouTube/Vimeo)
 - **Coach-Konfiguration** für E-Mail-basiertes Assessment-Feedback
+- **Audio-Generierung** via `generate-audio.sh`
 
 ## Workshop-Struktur
 
@@ -73,89 +108,23 @@ Ein vollständiger Workshop mit:
 workshop-{topic}/
 ├── index.yaml                    # Verfügbare Sprachen
 ├── index.html                    # Redirect zu open-learn.app
+├── CONTRIBUTING.md               # Übersetzungs-Anleitung
 ├── .github/workflows/static.yml  # GitHub Pages Deployment
-├── deutsch/
-│   ├── workshops.yaml            # Metadaten, Farben, Coach
+├── deutsch/                      # Erste Sprache
+│   ├── workshops.yaml
 │   └── {topic}/
 │       ├── lessons.yaml
 │       ├── thumbnail.svg
 │       └── 01-{title}/content.yaml ... N-{title}/content.yaml
-├── english/
-├── farsi/
-└── arabic/
-```
-
-### content.yaml Format (Version 2)
-
-```yaml
-version: 2
-number: 1
-title: "Lektion 1 — Grundlagen"
-description: "Einführung in die wichtigsten Konzepte"
-image: "images/header.png"          # Optional: Header-Bild
-sections:
-  - title: "Abschnitt 1"
-    video: "https://youtube.com/watch?v=..."  # Optional
-    image: "screenshots/step1.png"            # Optional
-    explanation: |
-      Markdown-Erklärung mit **Formatierung**.
-    examples:
-      - q: "Frage oder Aufgabe"
-        a: "Antwort oder Erklärung"
-        labels: ["Kategorie"]
-        rel:
-          - ["eindeutige-id", "Bedeutung", "Kontext"]
-
-  - title: "🖥️ Wissens-Check"
-    examples:
-      - type: select
-        q: "Welche Aussage ist korrekt?"
-        options:
-          - text: "Option A"
-            correct: true
-          - text: "Option B"
-          - text: "Option C"
-```
-
-## Angewandte Lernmethoden
-
-| Methode | Umsetzung |
-|---------|-----------|
-| **Active Recall** | Situation vor der Frage, Antwort nie in der Frage |
-| **Emotionale Anker** | Mind. 1 überraschendes Beispiel pro Section |
-| **Desirable Difficulty** | Fragen erfordern Nachdenken |
-| **Narrative Verankerung** | Roter Faden über alle Lektionen |
-| **Interleaving** | Themen werden in späteren Lektionen gemischt |
-
-### Zusätzlich für Sprach-Workshops
-
-- **Verben zuerst:** 50 häufigste Verben als Grundlage
-- **5-Phasen-Curriculum:** Verb-Grundlagen → Zeiten → Fortgeschrittene Grammatik → Vokabelerweiterung → Meisterschaft
-- **Review-Zyklen:** Alle 5 Lektionen
-
-### Zusätzlich für IT/Code-Workshops
-
-- Exakte Befehle als Fragen, Erklärung als Antwort
-- Terminal-Simulatoren mit echten Befehlen
-- `terminal-sim.yaml` pro Lektion
-
-## Workflow
-
-```
-/workshop-creator  →  Lokaler Workshop in workshops/
-       ↓
-/check-workshops   →  Status prüfen
-       ↓
-/import-workshop   →  GitHub Repo + Pages + Default-Sources
-       ↓
-   open-learn.app  →  Workshop live verfügbar
+├── english/                      # Später mit /translate-workshop
+└── ...                           # Weitere Sprachen
 ```
 
 ## Kompatibilität
 
-- Generiert Inhalte im [Open Learn YAML Schema](https://github.com/openlearnapp/openlearnapp.github.io/blob/main/docs/lesson-schema.md) (Version 2)
-- Kompatibel mit dem [External Workshop Guide](https://github.com/openlearnapp/openlearnapp.github.io/blob/main/docs/external-workshop-guide.md)
-- Deployment über GitHub Pages mit automatischem Workflow
+- [Open Learn YAML Schema](https://github.com/openlearnapp/openlearnapp.github.io/blob/main/docs/lesson-schema.md) (Version 2)
+- [External Workshop Guide](https://github.com/openlearnapp/openlearnapp.github.io/blob/main/docs/external-workshop-guide.md)
+- GitHub Pages Deployment
 
 ## License
 

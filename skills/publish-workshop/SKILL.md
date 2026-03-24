@@ -1,13 +1,13 @@
 ---
-name: import-workshop
-description: Import a finished workshop from the local staging folder into a GitHub repo and make it live on open-learn.app
+name: publish-workshop
+description: Publish a finished workshop to GitHub and deploy it live on open-learn.app via GitHub Pages
 argument-hint: [workshop-name]
 allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
-# Workshop Importer
+# Workshop Publisher
 
-Importiere einen fertigen Workshop aus `/Users/reza/Github/openlearnapp/workshops/` ins Projekt.
+Veröffentliche einen fertigen Workshop aus `/Users/reza/Github/openlearnapp/workshops/` auf GitHub Pages.
 
 ## Ablauf
 
@@ -82,7 +82,7 @@ gh api repos/openlearnapp/workshop-{name}/pages -X POST -f build_type=workflow 2
 ### e) Default-Sources aktualisieren
 Prüfe ob die URL bereits in `public/default-sources.yaml` steht:
 ```yaml
-- https://open-learn.app/workshop-{name}/index.yaml
+- https://openlearnapp.github.io/workshop-{name}/index.yaml
 ```
 Falls nicht: hinzufügen, committen, PR erstellen.
 
