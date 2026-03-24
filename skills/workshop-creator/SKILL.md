@@ -13,11 +13,13 @@ Du erstellst vollständige Lernworkshops im YAML-Format für **open-learn.app**.
 
 Frage den User nach:
 - **Thema:** Was soll gelehrt werden? (z.B. "Python Grundlagen", "Japanisch", "Erste Hilfe")
-- **Sprachen:** Für welche Interface-Sprachen? (Standard: deutsch + english + farsi + arabic)
+- **Sprache:** In welcher Interface-Sprache? (Standard: deutsch — weitere Sprachen später mit `/translate-workshop` hinzufügen)
 - **Lektionen:** Wie viele? (Standard: 10, empfohlen: 12)
 - **Zielgruppe:** Anfänger / Fortgeschrittene?
 
 Falls der User ein Argument übergibt (z.B. `/workshop-creator Linux`), nutze das als Thema und frage nur nach fehlenden Details.
+
+**Wichtig:** Erstelle den Workshop zunächst in **einer Sprache**. Wenn der Inhalt ausgereift ist, können weitere Sprachen mit `/translate-workshop` hinzugefügt werden.
 
 ## Schritt 2 — Workshop-Ordner erstellen
 
@@ -26,34 +28,20 @@ Alle Dateien kommen in diesen Pfad:
 /Users/reza/Github/openlearnapp/workshops/workshop-[thema]/
 ```
 
-### Ordnerstruktur (für jede Sprache wiederholen)
+### Ordnerstruktur (eine Sprache — weitere mit `/translate-workshop` hinzufügen)
 
 ```
 workshop-[thema]/
 ├── index.yaml
 ├── index.html
 ├── README.md
-├── deutsch/
+├── CONTRIBUTING.md
+├── [sprache]/                  # z.B. deutsch/
 │   ├── workshops.yaml
 │   └── [thema]/
 │       ├── lessons.yaml
 │       ├── thumbnail.svg
-│       └── 01-[titel]/content.yaml ... 10-[titel]/content.yaml
-├── english/
-│   ├── workshops.yaml
-│   └── [thema-en]/
-│       ├── lessons.yaml
-│       └── 01-[title]/content.yaml ...
-├── farsi/
-│   ├── workshops.yaml
-│   └── [thema-fa]/
-│       ├── lessons.yaml
-│       └── 01-[titel]/content.yaml ...
-└── arabic/
-    ├── workshops.yaml
-    └── [thema-ar]/
-        ├── lessons.yaml
-        └── 01-[titel]/content.yaml ...
+│       └── 01-[titel]/content.yaml ... N-[titel]/content.yaml
 ```
 
 ## Schritt 3 — Dateien generieren
@@ -61,15 +49,10 @@ workshop-[thema]/
 ### index.yaml
 ```yaml
 languages:
-  - folder: deutsch
-    code: de-DE
-  - folder: english
-    code: en-US
-  - folder: farsi
-    code: fa-IR
-  - folder: arabic
-    code: ar-SA
+  - folder: [sprache]           # z.B. deutsch
+    code: [sprach-code]         # z.B. de-DE
 ```
+Weitere Sprachen werden später von `/translate-workshop` hier ergänzt.
 
 ### index.html
 ```html
@@ -165,6 +148,69 @@ sections:
             correct: true
 ```
 
+### CONTRIBUTING.md
+Erstelle eine Übersetzungs-Anleitung für Community-Contributors:
+
+```markdown
+# Contributing — [Workshop-Name]
+
+## Eine neue Sprache hinzufügen
+
+Dieses Projekt nutzt das [Open Learn](https://open-learn.app) Format. Du kannst eine Übersetzung beitragen, indem du einen bestehenden Sprach-Ordner als Vorlage nutzt.
+
+### Schritt 1: Ordner erstellen
+
+Kopiere einen bestehenden Sprach-Ordner (z.B. `deutsch/`) und benenne ihn um:
+
+| Sprache | Ordner | Code |
+|---------|--------|------|
+| English | `english` | `en-US` |
+| Farsi | `farsi` | `fa-IR` |
+| Arabic | `arabic` | `ar-SA` |
+| Français | `francais` | `fr-FR` |
+| Español | `espanol` | `es-ES` |
+
+### Schritt 2: Inhalte übersetzen
+
+In jeder `content.yaml`:
+
+| Feld | Übersetzen? |
+|------|-------------|
+| `title`, `description` | ✅ Ja |
+| `explanation` | ✅ Ja |
+| `a` (Antwort) | ✅ Ja |
+| Section `title` | ✅ Ja |
+| `options[].text` | ✅ Ja |
+| `q` (Frage) | ❌ Nein* |
+| `rel` (erster Wert) | ❌ Nein |
+| `rel` (zweiter Wert) | ✅ Ja |
+| `labels`, `type`, `correct` | ❌ Nein |
+
+*Bei Nicht-Sprach-Workshops (IT, Wissen) werden auch `q`-Felder übersetzt.
+
+### Schritt 3: index.yaml erweitern
+
+Füge deine Sprache in `index.yaml` hinzu:
+
+```yaml
+languages:
+  - folder: deutsch
+    code: de-DE
+  - folder: english    # NEU
+    code: en-US
+```
+
+### Schritt 4: Pull Request erstellen
+
+Erstelle einen PR mit deiner Übersetzung. Bitte prüfe vorher:
+
+- [ ] Alle `content.yaml` Dateien sind gültiges YAML
+- [ ] `lessons.yaml` listet alle Lektion-Ordner auf
+- [ ] `workshops.yaml` hat `title` und `description` übersetzt
+- [ ] `index.yaml` enthält deine neue Sprache
+- [ ] Keine `rel`-IDs verändert (erster Wert)
+```
+
 ### thumbnail.svg
 1280×800 SVG mit:
 - Farbverlauf-Hintergrund passend zum Workshop
@@ -180,7 +226,7 @@ sections:
 - 4–6 Sections pro Lektion (Anfänger: 4–5, Fortgeschrittene: 5–6), 3–5 Examples pro Section
 - Letzte Section = interaktiver Check (1× input, 2× select, 1× multiple-choice) mit `correct: true` Markern
 - Jede `rel`-ID nur einmal im gesamten Workshop
-- ALLE angegebenen Interface-Sprachen erstellen (q:-Felder gleich, a:/explanation: übersetzt)
+- Workshop in **einer Sprache** vollständig erstellen (weitere mit `/translate-workshop`)
 - `version: 2` in jeder content.yaml
 - `description`-Feld in jeder Lektion (wird auf Lesson-Karten angezeigt)
 
@@ -247,14 +293,24 @@ Zeige dem User:
 ```
 ✅ Workshop [Name] fertig!
 📁 /Users/reza/Github/openlearnapp/workshops/workshop-[name]/
-📚 [N] Lektionen × [M] Sprachen, ca. [X] Beispiele
+📚 [N] Lektionen, [Sprache], ca. [X] Beispiele
 🎨 color=[...] primaryColor=[...]
 
-→ Sag "importieren" oder nutze /import-workshop um den Workshop live zu schalten.
+Nächste Schritte:
+→ /translate-workshop [name] --lang en    Weitere Sprache hinzufügen
+→ /extend-workshop [name] --lessons 11-20 Weitere Lektionen ergänzen
+→ /publish-workshop [name]                 Workshop live schalten
 ```
+
+### Audio-Generierung (optional)
+Falls das `generate-audio.sh` Script verfügbar ist:
+```bash
+cd /Users/reza/Github/openlearnapp/openlearnapp.github.io
+./generate-audio.sh /Users/reza/Github/openlearnapp/workshops/workshop-[name]/[sprache]/[thema]/01-[titel]/
+```
+Voraussetzungen: macOS mit `say`, `yq` (`brew install yq`), `ffmpeg` (`brew install ffmpeg`).
 
 ## Was du NICHT tust
 - Kein Git, kein Push, kein PR
-- Keine Videos oder externe Links
 - Keine Platzhalter — jede Datei vollständig
 - Nicht mehr als einen Workshop gleichzeitig
