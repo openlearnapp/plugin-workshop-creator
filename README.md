@@ -24,6 +24,7 @@ git clone https://github.com/openlearnapp/plugin-workshop-creator .claude/plugin
 | **validate-workshop** | `/validate-workshop [name]` | Validate structure, YAML, rel-IDs, and schema compliance |
 | **publish-workshop** | `/publish-workshop [name]` | Publish to GitHub and deploy via GitHub Pages |
 | **check-workshops** | `/check-workshops` | Show status of all workshops |
+| **import-workshop** | `/import-workshop` | Import a finished workshop from staging into the project |
 
 ## Workflow
 
