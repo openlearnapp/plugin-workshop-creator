@@ -32,8 +32,13 @@ Führe **alle** Prüfungen durch und sammle die Ergebnisse.
   - [ ] `lessons.yaml` existiert im Workshop-Ordner
   - [ ] Alle in `lessons.yaml` gelisteten Ordner existieren
   - [ ] Jeder Lektion-Ordner enthält `content.yaml`
+  - [ ] `thumbnail.svg` existiert im Workshop-Ordner
 - [ ] `CONTRIBUTING.md` existiert
 - [ ] `index.html` existiert
+- [ ] `README.md` existiert und enthält Landing Page + Start Workshop Links:
+  - Prüfe ob `README.md` die Zeile `> **[Landing Page](...` enthält
+  - URL-Format: `https://open-learn.app/workshop-{name}/` (Landing Page)
+  - URL-Format: `https://open-learn.app/#/add?source=https://open-learn.app/workshop-{name}/` (Start Workshop)
 
 ### b) YAML-Syntax
 
@@ -99,22 +104,33 @@ Falls mehrere Sprachen vorhanden:
 - [ ] Jede Lektion hat mindestens 4 Sections
 - [ ] Letzte Section jeder Lektion enthält mindestens 1 Assessment (type: input/select/multiple-choice)
 - [ ] `workshops.yaml` hat `color` und `primaryColor`
+- [ ] `thumbnail.svg` existiert und ist valides SVG (pro Sprache/Workshop-Ordner)
+
+### i) Medien & Features (Hinweise, keine Fehler)
+
+Zeige als ⚠️ Hinweise (nicht als Fehler):
+- [ ] IT/Code-Workshop ohne `terminal-sim.yaml` → Hinweis: "Terminal-Simulator empfohlen"
+- [ ] IT/Code/Wissenschaft-Workshop ohne Lesson-Bilder → Hinweis: "Diagramme/Bilder empfohlen"
+- [ ] Workshop ohne Labels → Hinweis: "Labels für bessere Filterung empfohlen"
+- [ ] Referenzierte Bilder (`image`-Felder) die nicht existieren → Fehler
 
 ## Schritt 3 — Ergebnis anzeigen
 
 ```
 🔍 Validierung: Workshop [Name]
 
-✅ Dateistruktur          [N] Sprachen, [M] Lektionen
+✅ Dateistruktur          [N] Sprachen, [M] Lektionen, README ✓, Thumbnails ✓
 ✅ YAML-Syntax            [X] Dateien geprüft
 ✅ Schema (version 2)     Alle content.yaml korrekt
 ✅ rel-IDs                [Y] eindeutige IDs
 ✅ Sprachcodes            Alle gültig
 ✅ Sprach-Konsistenz      [N] Sprachen synchron
 ✅ Deployment             .gitignore ✓, Workflow ✓, Landing Page ✓
-✅ Qualität               [M] Lektionen, [S] Sections/Lektion
+✅ Qualität               [M] Lektionen, [S] Sections/Lektion, Thumbnails ✓
+💡 Medien                 terminal-sim: 0/12, Bilder: 0/12, Labels: 4/12
 
 Ergebnis: ✅ Workshop ist bereit zum Veröffentlichen
+💡 Tipp: /update-workshop [name] kann fehlende Medien ergänzen
 ```
 
 Bei Fehlern:
@@ -122,6 +138,7 @@ Bei Fehlern:
 🔍 Validierung: Workshop [Name]
 
 ✅ Dateistruktur          2 Sprachen, 10 Lektionen
+❌ README.md              Landing Page + Start Workshop Links fehlen
 ❌ YAML-Syntax            Fehler in deutsch/linux/05-netzwerk/content.yaml:42
 ✅ Schema (version 2)     Alle content.yaml korrekt
 ⚠️  rel-IDs               3 doppelte IDs: "ls", "cd", "pwd"
@@ -129,8 +146,9 @@ Bei Fehlern:
 ❌ Sprach-Konsistenz      deutsch: 10 Lektionen, english: 8 Lektionen
 ❌ Deployment             .DS_Store gefunden, kein Workflow, nicht in Landing Page
 ✅ Qualität               10 Lektionen, 5 Sections/Lektion
+⚠️  Thumbnails             english/ fehlt
 
-Ergebnis: ❌ 2 Fehler, 1 Warnung — bitte beheben vor /publish-workshop
+Ergebnis: ❌ 3 Fehler, 2 Warnungen — /update-workshop [name] kann vieles davon beheben
 ```
 
 ## Was du NICHT tust

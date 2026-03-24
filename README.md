@@ -18,11 +18,12 @@ git clone https://github.com/openlearnapp/plugin-workshop-creator .claude/plugin
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| **workshop-creator** | `/workshop-creator <topic>` | Create a workshop in one language with lessons, assessments, and thumbnails |
+| **workshop-creator** | `/workshop-creator <topic>` | Create a workshop in one language with lessons, assessments, thumbnails, and diagrams |
 | **translate-workshop** | `/translate-workshop <name> --lang en` | Add a new language to an existing workshop |
 | **extend-workshop** | `/extend-workshop <name> --lessons 11-20` | Add more lessons to an existing workshop |
-| **validate-workshop** | `/validate-workshop [name]` | Validate structure, YAML, rel-IDs, and schema compliance |
-| **publish-workshop** | `/publish-workshop [name]` | Publish to GitHub and deploy via GitHub Pages |
+| **update-workshop** | `/update-workshop <name> [--dry-run]` | Idempotent update — fix structure, migrate schema, add missing media |
+| **validate-workshop** | `/validate-workshop [name]` | Validate structure, YAML, rel-IDs, schema, README links, and media |
+| **publish-workshop** | `/publish-workshop [name]` | Publish to GitHub, deploy via GitHub Pages, create Pages setup issue |
 | **check-workshops** | `/check-workshops` | Show status of all workshops |
 | **import-workshop** | `/import-workshop` | Import a finished workshop from staging into the project |
 
@@ -35,7 +36,9 @@ git clone https://github.com/openlearnapp/plugin-workshop-creator .claude/plugin
        ↓
 /extend-workshop        Add more lessons over time
        ↓
-/validate-workshop      Check structure, schema, rel-IDs
+/update-workshop        Fix structure, migrate schema, add missing media (idempotent)
+       ↓
+/validate-workshop      Check structure, schema, rel-IDs, README links, media
        ↓
 /check-workshops        Review status across all workshops
        ↓
@@ -91,13 +94,16 @@ Felder die **nicht** übersetzt werden: `q` (bei Sprach-Workshops), `rel`-IDs, `
 
 - **10–50 strukturierte Lektionen** (Schema Version 2)
 - **Interaktive Assessments** mit `correct`-Markern (input, select, multiple-choice)
-- **SVG-Thumbnails** pro Workshop
+- **SVG-Thumbnails** pro Workshop (thematische Symbole, Farbverlauf)
+- **SVG-Diagramme** als Lesson-Bilder (IT/Wissenschaft: Architektur, Abläufe, Topologien)
+- **README.md** mit Landing Page + Start Workshop Links
 - **Labels** für Filterung und Kategorisierung
 - **CONTRIBUTING.md** für Community-Übersetzungen
 - **GitHub Pages Workflow** für automatisches Deployment
 
 ### Optionale Features
 
+- **terminal-sim.yaml** für IT/Code-Workshops (simulierte Terminal-Befehle)
 - **Bilder** auf Lesson-, Section- und Example-Ebene
 - **Videos** auf Section-Ebene (YouTube/Vimeo)
 - **Coach-Konfiguration** für E-Mail-basiertes Assessment-Feedback
@@ -109,14 +115,18 @@ Felder die **nicht** übersetzt werden: `q` (bei Sprach-Workshops), `rel`-IDs, `
 workshop-{topic}/
 ├── index.yaml                    # Verfügbare Sprachen
 ├── index.html                    # Redirect zu open-learn.app
+├── README.md                     # Landing Page + Start Workshop Links
 ├── CONTRIBUTING.md               # Übersetzungs-Anleitung
 ├── .github/workflows/static.yml  # GitHub Pages Deployment
 ├── deutsch/                      # Erste Sprache
 │   ├── workshops.yaml
 │   └── {topic}/
 │       ├── lessons.yaml
-│       ├── thumbnail.svg
-│       └── 01-{title}/content.yaml ... N-{title}/content.yaml
+│       ├── thumbnail.svg         # 1280×800 Workshop-Thumbnail
+│       ├── 01-{title}/
+│       │   ├── content.yaml
+│       │   └── diagram.svg       # Optional: Lesson-Diagramm
+│       └── N-{title}/content.yaml
 ├── english/                      # Später mit /translate-workshop
 └── ...                           # Weitere Sprachen
 ```
