@@ -106,12 +106,23 @@ Falls mehrere Sprachen vorhanden:
 - [ ] `workshops.yaml` hat `color` und `primaryColor`
 - [ ] `thumbnail.svg` existiert und ist valides SVG (pro Sprache/Workshop-Ordner)
 
-### i) Medien & Features (Hinweise, keine Fehler)
+### i) Lesson-Bilder (PFLICHT)
+
+- [ ] **Jede Lektion hat ein `image`-Feld** — ohne Bild sieht die Lektionskarte im Lernpfad leer aus
+- [ ] Die referenzierte Bilddatei existiert (z.B. `images/lesson-header.svg`)
+- [ ] Bildformat ist SVG oder PNG, Seitenverhältnis 16:9 empfohlen
+- Fehlende Bilder als ❌ Fehler melden (nicht als Hinweis)
+
+### j) Labels (PFLICHT)
+
+- [ ] **Jedes Example hat mindestens 1 Label** — Labels werden als Badges auf der Lektionskarte angezeigt
+- [ ] Labels sind konsistent über Lektionen hinweg (gleiche Schreibweise)
+- Fehlende Labels als ❌ Fehler melden
+
+### k) Medien & Features (Hinweise)
 
 Zeige als ⚠️ Hinweise (nicht als Fehler):
 - [ ] IT/Code-Workshop ohne `terminal-sim.yaml` → Hinweis: "Terminal-Simulator empfohlen"
-- [ ] IT/Code/Wissenschaft-Workshop ohne Lesson-Bilder → Hinweis: "Diagramme/Bilder empfohlen"
-- [ ] Workshop ohne Labels → Hinweis: "Labels für bessere Filterung empfohlen"
 - [ ] Referenzierte Bilder (`image`-Felder) die nicht existieren → Fehler
 
 ## Schritt 3 — Ergebnis anzeigen
@@ -127,10 +138,11 @@ Zeige als ⚠️ Hinweise (nicht als Fehler):
 ✅ Sprach-Konsistenz      [N] Sprachen synchron
 ✅ Deployment             .gitignore ✓, Workflow ✓, Landing Page ✓
 ✅ Qualität               [M] Lektionen, [S] Sections/Lektion, Thumbnails ✓
-💡 Medien                 terminal-sim: 0/12, Bilder: 0/12, Labels: 4/12
+✅ Lesson-Bilder          [M]/[M] Lektionen mit Bild
+✅ Labels                 [X]/[X] Examples mit Labels
+⚠️  Medien                terminal-sim: 0/12
 
 Ergebnis: ✅ Workshop ist bereit zum Veröffentlichen
-💡 Tipp: /update-workshop [name] kann fehlende Medien ergänzen
 ```
 
 Bei Fehlern:
@@ -146,9 +158,11 @@ Bei Fehlern:
 ❌ Sprach-Konsistenz      deutsch: 10 Lektionen, english: 8 Lektionen
 ❌ Deployment             .DS_Store gefunden, kein Workflow, nicht in Landing Page
 ✅ Qualität               10 Lektionen, 5 Sections/Lektion
+❌ Lesson-Bilder          0/10 Lektionen haben Bilder
+❌ Labels                 42/180 Examples ohne Labels
 ⚠️  Thumbnails             english/ fehlt
 
-Ergebnis: ❌ 3 Fehler, 2 Warnungen — /update-workshop [name] kann vieles davon beheben
+Ergebnis: ❌ 5 Fehler, 2 Warnungen — /update-workshop [name] kann vieles davon beheben
 ```
 
 ## Was du NICHT tust

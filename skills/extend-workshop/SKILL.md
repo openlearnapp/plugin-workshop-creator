@@ -42,13 +42,17 @@ Falls Argumente übergeben wurden (z.B. `/extend-workshop linux --lessons 11-20`
 ### Für jede Sprache im Workshop:
 
 1. Erstelle neue Lektion-Ordner: `{N+1}-[titel]/content.yaml`
-2. Erweitere `lessons.yaml` um die neuen Einträge (bestehende NICHT ändern)
-3. Halte die gleichen Qualitätsregeln ein wie `/workshop-creator`:
+2. Erstelle `images/lesson-header.svg` in jedem neuen Lektion-Ordner (640×360, 16:9, flat design)
+3. Erweitere `lessons.yaml` um die neuen Einträge (bestehende NICHT ändern)
+4. Halte die gleichen Qualitätsregeln ein wie `/workshop-creator`:
    - `version: 2`
    - 4–6 Sections, 3–5 Examples pro Section
    - Letzte Section = Wissens-Check mit `correct: true` Markern
    - Neue `rel`-IDs die nicht mit bestehenden kollidieren
    - `description`-Feld in jeder neuen Lektion
+   - `image: "images/lesson-header.svg"` in jeder neuen Lektion (PFLICHT)
+   - `labels` auf jedem Example (PFLICHT — mindestens 1 Label)
+   - `rel` auf jedem Example (wo inhaltlich sinnvoll)
 
 ### Inhaltliche Anknüpfung
 

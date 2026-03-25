@@ -52,7 +52,14 @@ workshop-{name}/
 │   └── [thema-übersetzt]/
 │       ├── lessons.yaml
 │       ├── thumbnail.svg        # Kopie mit übersetztem Text
-│       └── 01-[titel]/content.yaml ... N-[titel]/content.yaml
+│       ├── 01-[titel]/
+│       │   ├── content.yaml
+│       │   └── images/
+│       │       └── lesson-header.svg   # Kopie aus Quellsprache
+│       └── N-[titel]/
+│           ├── content.yaml
+│           └── images/
+│               └── lesson-header.svg
 ```
 
 ### index.yaml erweitern
@@ -90,7 +97,13 @@ languages:
 | `labels` | ❌ Nein | Konsistente Kategorien |
 | `version`, `number` | ❌ Nein | Technische Felder |
 | `video` | ❌ Nein | Gleiche URL |
-| `image` | ❌ Nein | Gleicher Pfad |
+| `image` (Pfad) | ❌ Nein | Gleicher relativer Pfad |
+| `image_caption` | ✅ Ja | Bildunterschrift übersetzen |
+
+### Lesson-Bilder kopieren
+- Kopiere den `images/` Ordner aus der Quellsprache in jede Lektion der Zielsprache
+- SVG-Bilder enthalten meist keine sprachspezifischen Texte → 1:1 kopieren
+- Falls ein SVG sichtbaren Text in der Quellsprache enthält → Text übersetzen
 
 ### Sonderfall Sprach-Workshops
 Bei Sprach-Workshops (z.B. Portugiesisch lernen) werden `q`-Felder kopiert, aber die `a`-Felder in die Zielsprache übersetzt:
