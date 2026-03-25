@@ -42,7 +42,7 @@ Falls Argumente übergeben wurden (z.B. `/extend-workshop linux --lessons 11-20`
 ### Für jede Sprache im Workshop:
 
 1. Erstelle neue Lektion-Ordner: `{N+1}-[titel]/content.yaml`
-2. Erstelle `images/lesson-header.svg` in jedem neuen Lektion-Ordner (640×360, 16:9, flat design)
+2. Erstelle `images/lesson-header.svg` in jedem neuen Lektion-Ordner mit dem **Write-Tool** (640×360, 16:9, flat design, thematisch passend zur Lektion)
 3. Erweitere `lessons.yaml` um die neuen Einträge (bestehende NICHT ändern)
 4. Halte die gleichen Qualitätsregeln ein wie `/workshop-creator`:
    - `version: 2`

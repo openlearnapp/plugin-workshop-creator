@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.1
+- fix: make image generation instructions explicit — skills now say "write the SVG file with Write-Tool" instead of just showing a template
+- fix: step-by-step instructions for each lesson: mkdir images/, Write SVG file, set image field in content.yaml
+
 ## 1.7.0
 - feat: lesson images now mandatory — every lesson must have `image: "images/lesson-header.svg"` with SVG file
 - feat: labels now mandatory on every example — shown as badges on lesson cards

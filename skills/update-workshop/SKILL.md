@@ -147,10 +147,12 @@ Falls `thumbnail.svg` für eine Sprache fehlt:
 
 Für jede Lektion ohne `image`-Feld:
 
-1. Erstelle `images/` Ordner im Lesson-Ordner
-2. Generiere `images/lesson-header.svg` (640×360, 16:9, flat design)
-3. Setze `image: "images/lesson-header.svg"` in `content.yaml`
-4. Setze `image_caption: "[Beschreibung]"` in `content.yaml`
+1. **Bash:** `mkdir -p [lektion]/images/`
+2. **Write-Tool:** Schreibe die SVG-Datei nach `[lektion]/images/lesson-header.svg` (640×360, 16:9, flat design, thematisch passend)
+3. **Edit-Tool:** Setze `image: "images/lesson-header.svg"` in `content.yaml`
+4. **Edit-Tool:** Setze `image_caption: "[Beschreibung]"` in `content.yaml`
+
+**Wichtig:** Die SVG-Datei muss tatsächlich mit dem Write-Tool erstellt werden — nicht nur der Pfad in content.yaml!
 
 **Bild-Inhalt je nach Workshop-Typ:**
 - **IT/Code:** Architektur-Diagramme, Terminal-Darstellungen, Netzwerk-Topologien

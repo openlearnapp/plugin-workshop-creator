@@ -304,8 +304,8 @@ Erstelle einen PR mit deiner Übersetzung. Bitte prüfe vorher:
 - [ ] Keine `rel`-IDs verändert (erster Wert)
 ```
 
-### thumbnail.svg (Pflicht — pro Sprache/Workshop-Ordner)
-1280×800 SVG mit:
+### thumbnail.svg (Pflicht — mit Write-Tool erstellen!)
+Erstelle die Datei `[sprache]/[thema]/thumbnail.svg` mit dem **Write-Tool**. 1280×800 SVG mit:
 - Farbverlauf-Hintergrund passend zur `primaryColor` des Workshops
 - Thematisches Symbol als SVG-Pfade (kein externes Bild, kein `<image>`-Tag)
 - Großer Titel-Text (Workshop-Titel in der jeweiligen Sprache)
@@ -343,27 +343,30 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 
 **Jede Lektion braucht ein Bild.** Ohne Bild sieht die Lektionskarte im Lernpfad leer aus.
 
-**Pfad:** `images/lesson-header.svg` im Lesson-Ordner
-**Format:** SVG, 640×360 (16:9), modern flat design
-**Referenz in content.yaml:** `image: "images/lesson-header.svg"`
+#### Schritt-für-Schritt für JEDE Lektion:
 
+1. **Erstelle den Ordner** `images/` im Lektion-Ordner (per Bash: `mkdir -p ...`)
+2. **Schreibe die SVG-Datei** mit dem Write-Tool nach `images/lesson-header.svg`
+3. **Setze in `content.yaml`:** `image: "images/lesson-header.svg"` und `image_caption: "[Beschreibung]"`
+
+**Du musst die SVG-Datei tatsächlich mit dem Write-Tool erstellen!** Nicht nur den Pfad in content.yaml referenzieren — die Datei muss existieren.
+
+#### Dateistruktur pro Lektion:
 ```
-[sprache]/[thema]/01-[titel]/images/lesson-header.svg
-[sprache]/[thema]/02-[titel]/images/lesson-header.svg
-...
+01-[titel]/
+├── content.yaml                    ← enthält image: "images/lesson-header.svg"
+└── images/
+    └── lesson-header.svg           ← DIESE DATEI MUSST DU ERSTELLEN (Write-Tool)
 ```
 
-**Bild-Stil je nach Workshop-Typ:**
+#### SVG-Spezifikation:
+- **Format:** 640×360 Pixel (16:9)
+- **Stil:** Modern, clean, flat design — passend zur Open Learn UI
+- **Inhalt:** Thematisches Diagramm/Illustration zum Kernkonzept der Lektion
+- **Keine externen Bilder:** Nur SVG-Pfade, Formen, Text (kein `<image>`-Tag)
+- **Jedes Bild einzigartig:** Nicht nur gleicher Hintergrund mit anderem Text!
 
-| Workshop-Typ | Bild-Stil | Beispiele |
-|-------------|-----------|-----------|
-| IT/Code | Architektur-Diagramme, Terminal-Screenshots, Ablauf-Diagramme | Docker-Architektur, Netzwerk-Topologie, Build-Pipeline |
-| Sprachen | Thematische Szenen, Konversations-Illustrationen | Café-Szene, Marktplatz, Reise-Situation |
-| Wissenschaft | Schematische Darstellungen, Prozessdiagramme | Atom-Modell, Zellstruktur, Periodensystem |
-| Geschichte | Zeitleisten, Karten, Gebäude-Silhouetten | Epochen-Timeline, historische Karte |
-| Musik | Notensysteme, Akkord-Diagramme, Wellenformen | Tonleiter, Akkord-Progressionen |
-
-**SVG-Vorlage für Lesson-Bild:**
+#### SVG-Vorlage (als Basis — anpassen pro Lektion!):
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
   <defs>
@@ -373,14 +376,26 @@ Das thematische Symbol soll zum Workshop-Thema passen:
     </linearGradient>
   </defs>
   <rect width="640" height="360" fill="url(#bg)" rx="12"/>
-  <!-- Thematisches Diagramm/Illustration als SVG-Pfade -->
-  <!-- Titel der Lektion als Text -->
-  <text x="320" y="340" text-anchor="middle" font-family="system-ui,sans-serif"
-        font-size="18" fill="white" fill-opacity="0.8">[Lektion-Titel]</text>
+
+  <!-- HIER: Thematisches Diagramm als SVG-Pfade/Formen -->
+  <!-- Beispiel IT: Terminal-Fenster, Server-Racks, Netzwerk-Linien -->
+  <!-- Beispiel Sprache: Sprechblasen, Flaggen, Buchstaben -->
+  <!-- Beispiel Wissenschaft: Atome, Formeln, Diagramme -->
+
+  <text x="320" y="330" text-anchor="middle" font-family="system-ui,sans-serif"
+        font-size="16" fill="white" fill-opacity="0.7">[Lektion-Titel]</text>
 </svg>
 ```
 
-Jedes Bild soll **inhaltlich zur Lektion passen** — nicht einfach den gleichen Hintergrund mit anderem Text. Zeige das Kernkonzept der Lektion visuell.
+#### Bild-Inhalt je nach Workshop-Typ:
+
+| Workshop-Typ | Was zeichnen? | Beispiele |
+|-------------|---------------|-----------|
+| IT/Code | Architektur, Terminal, Netzwerk, Ablauf | Docker-Container-Stack, CLI-Fenster, Server-Diagramm |
+| Sprachen | Szenen, Konversation, Objekte | Café mit Sprechblasen, Marktstand, Reisekoffer |
+| Wissenschaft | Schema, Prozess, Modell | Atom-Aufbau, DNA-Helix, Periodensystem-Ausschnitt |
+| Geschichte | Timeline, Karte, Gebäude | Epochen-Leiste, Weltkarte-Ausschnitt, Tempel-Silhouette |
+| Musik | Noten, Akkorde, Wellen | Notensystem mit Melodie, Gitarren-Griffbrett |
 
 **Auf Section-Ebene (optional):** Zusätzliche Diagramme für Schritt-für-Schritt-Anleitungen:
 ```yaml
@@ -389,6 +404,7 @@ sections:
     image: "images/architecture.svg"
     image_caption: "Docker Engine, Images und Container"
 ```
+Auch diese SVG-Dateien müssen mit dem Write-Tool erstellt werden.
 
 ## Qualitätsregeln
 
