@@ -47,9 +47,16 @@ workshop-[thema]/
 │       ├── thumbnail.svg       # 1280×800 Workshop-Thumbnail
 │       ├── 01-[titel]/
 │       │   ├── content.yaml
-│       │   └── diagram.svg     # Optional: Lesson-Bild (IT/Wissenschaft)
+│       │   └── images/
+│       │       └── lesson-header.svg   # PFLICHT: Lesson-Bild (640×360, 16:9)
+│       ├── 02-[titel]/
+│       │   ├── content.yaml
+│       │   └── images/
+│       │       └── lesson-header.svg
 │       └── N-[titel]/
-│           └── content.yaml
+│           ├── content.yaml
+│           └── images/
+│               └── lesson-header.svg
 ```
 
 ### .gitignore (Pflicht — immer erstellen)
@@ -157,8 +164,8 @@ version: 2
 number: [N]
 title: "[Titel]"
 description: "[Ein Satz]"
-image: "[optionaler Pfad oder URL]"
-image_caption: "[optionale Bildunterschrift]"
+image: "images/lesson-header.svg"
+image_caption: "[Beschreibung des Bildes]"
 sections:
   - title: "[Abschnittstitel]"
     video: "[optionale YouTube/Vimeo-URL]"
@@ -169,9 +176,7 @@ sections:
     examples:
       - q: "[Frage/Befehl/Quellsatz]"
         a: "[Antwort/Erklärung]"
-        image: "[optionaler Pfad oder URL]"
-        image_caption: "[optionale Bildunterschrift]"
-        labels: ["[Kategorie]"]
+        labels: ["[Kategorie1]", "[Kategorie2]"]
         rel:
           - ["[eindeutige-id]", "[bedeutung]", "[kontext]"]
 
@@ -334,32 +339,54 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 - **Musik:** Noten, Notenschlüssel, Wellenformen
 - **Geschichte:** Bücher, Zeitleisten, Gebäude-Silhouetten
 
-### Lesson-Bilder generieren (wo sinnvoll)
+### Lesson-Bilder generieren (PFLICHT — für jede Lektion)
 
-Für Workshops mit visuellen Themen erstelle SVG-Diagramme als Lesson-Header:
+**Jede Lektion braucht ein Bild.** Ohne Bild sieht die Lektionskarte im Lernpfad leer aus.
 
-**Wann Lesson-Bilder erstellen:**
-- IT/Code: Architektur-Diagramme, Ablauf-Diagramme, Netzwerk-Topologien
-- Naturwissenschaft: Schematische Darstellungen, Prozessdiagramme
-- Musik: Notensysteme, Akkord-Diagramme
-- **NICHT** für reine Text-/Sprach-Workshops
+**Pfad:** `images/lesson-header.svg` im Lesson-Ordner
+**Format:** SVG, 640×360 (16:9), modern flat design
+**Referenz in content.yaml:** `image: "images/lesson-header.svg"`
 
-**Format:** SVG-Dateien im Lesson-Ordner, 16:9 Seitenverhältnis (z.B. 960×540)
 ```
-[sprache]/[thema]/[lektion]/diagram.svg
-```
-
-In `content.yaml` referenzieren:
-```yaml
-image: "diagram.svg"
-image_caption: "[Beschreibung des Diagramms]"
+[sprache]/[thema]/01-[titel]/images/lesson-header.svg
+[sprache]/[thema]/02-[titel]/images/lesson-header.svg
+...
 ```
 
-**Auf Section-Ebene:** Für Schritt-für-Schritt-Anleitungen einzelne Diagramme pro Section:
+**Bild-Stil je nach Workshop-Typ:**
+
+| Workshop-Typ | Bild-Stil | Beispiele |
+|-------------|-----------|-----------|
+| IT/Code | Architektur-Diagramme, Terminal-Screenshots, Ablauf-Diagramme | Docker-Architektur, Netzwerk-Topologie, Build-Pipeline |
+| Sprachen | Thematische Szenen, Konversations-Illustrationen | Café-Szene, Marktplatz, Reise-Situation |
+| Wissenschaft | Schematische Darstellungen, Prozessdiagramme | Atom-Modell, Zellstruktur, Periodensystem |
+| Geschichte | Zeitleisten, Karten, Gebäude-Silhouetten | Epochen-Timeline, historische Karte |
+| Musik | Notensysteme, Akkord-Diagramme, Wellenformen | Tonleiter, Akkord-Progressionen |
+
+**SVG-Vorlage für Lesson-Bild:**
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="[helle Workshop-Farbe]"/>
+      <stop offset="100%" stop-color="[etwas dunklere Farbe]"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)" rx="12"/>
+  <!-- Thematisches Diagramm/Illustration als SVG-Pfade -->
+  <!-- Titel der Lektion als Text -->
+  <text x="320" y="340" text-anchor="middle" font-family="system-ui,sans-serif"
+        font-size="18" fill="white" fill-opacity="0.8">[Lektion-Titel]</text>
+</svg>
+```
+
+Jedes Bild soll **inhaltlich zur Lektion passen** — nicht einfach den gleichen Hintergrund mit anderem Text. Zeige das Kernkonzept der Lektion visuell.
+
+**Auf Section-Ebene (optional):** Zusätzliche Diagramme für Schritt-für-Schritt-Anleitungen:
 ```yaml
 sections:
   - title: "Docker-Architektur"
-    image: "architecture.svg"
+    image: "images/architecture.svg"
     image_caption: "Docker Engine, Images und Container"
 ```
 
@@ -373,13 +400,15 @@ sections:
 - Workshop in **einer Sprache** vollständig erstellen (weitere mit `/translate-workshop`)
 - `version: 2` in jeder content.yaml
 - `description`-Feld in jeder Lektion (wird auf Lesson-Karten angezeigt)
+- **`image`-Feld in JEDER Lektion** — `image: "images/lesson-header.svg"` + SVG-Datei erstellen
+- **`labels` auf JEDEM Example** — mindestens 1 Label pro Example (wird als Badge auf der Karte angezeigt)
+- **`rel` auf JEDEM Example** (wo inhaltlich sinnvoll) — wird als Learning Item mit Fortschrittsbalken angezeigt
 
-### Bilder und Medien (optional)
-- **Lesson-Bild:** `image` + `image_caption` auf Top-Level — wird als Header und Thumbnail angezeigt (min. 640×360, 16:9)
-- **Section-Bild:** `image` + `image_caption` auf Section-Ebene — über der Erklärung (min. 800px breit)
-- **Example-Bild:** `image` + `image_caption` auf Example-Ebene — Thumbnail neben der Frage
-- **Video:** `video`-Feld auf Section-Ebene (YouTube/Vimeo-URL) — wird als Embed angezeigt
-- Bilder und Videos sind optional, aber besonders für Schritt-für-Schritt-Anleitungen und visuelle Themen empfohlen
+### Bilder und Medien
+- **Lesson-Bild (PFLICHT):** `image: "images/lesson-header.svg"` auf Top-Level — wird als Thumbnail auf der Lektionskarte angezeigt. Ohne Bild sieht die Karte leer aus.
+- **Section-Bild (optional):** `image` + `image_caption` auf Section-Ebene — über der Erklärung
+- **Example-Bild (optional):** `image` + `image_caption` auf Example-Ebene — Thumbnail neben der Frage
+- **Video (optional):** `video`-Feld auf Section-Ebene (YouTube/Vimeo-URL) — wird als Embed angezeigt
 
 ### Coach-Konfiguration (optional)
 Falls gewünscht, in `workshops.yaml` ergänzen:
@@ -390,12 +419,13 @@ coach:
 ```
 Aktiviert den "Ergebnisse per E-Mail senden"-Button auf der Assessment-Seite.
 
-### Labels systematisch einsetzen
-- Labels kategorisieren Examples und ermöglichen Filterung
+### Labels systematisch einsetzen (PFLICHT)
+- **Jedes Example braucht mindestens 1 Label** — Labels werden als Badges auf der Lektionskarte und als Filter in der App angezeigt
 - Für Sprachen: Grammatik-Konzepte (`Präsens`, `Futur`, `Passiv`, `Konjunktiv`, etc.)
-- Für IT/Code: Kategorien (`Basics`, `Netzwerk`, `Dateisystem`, `Prozesse`, etc.)
+- Für IT/Code: Kategorien (`Basics`, `Netzwerk`, `Dateisystem`, `Prozesse`, `Konfiguration`, etc.)
 - Für Wissens-Themen: Schwierigkeitsgrad oder Unterthema
 - Labels konsistent über alle Lektionen verwenden
+- Maximal 3–4 verschiedene Labels pro Lektion (zu viele Labels = unübersichtlich)
 
 ### Lernmethoden (immer anwenden)
 - **Active Recall:** Situation vor der Frage, nie Antwort in der Frage

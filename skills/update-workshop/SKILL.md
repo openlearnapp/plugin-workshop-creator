@@ -55,11 +55,12 @@ Lies den gesamten Workshop und erstelle einen Befund:
 - [ ] `rel`-IDs eindeutig über gesamten Workshop
 - [ ] Labels konsistent verwendet
 
-### d) Feature-Check (neue Features die fehlen könnten)
+### d) Pflichtfelder-Check (neue Anforderungen)
+- [ ] **`image`-Feld in jeder Lektion** — `image: "images/lesson-header.svg"` + SVG existiert
+- [ ] **`labels` auf jedem Example** — mindestens 1 Label pro Example
 - [ ] `thumbnail.svg` existiert pro Sprache/Workshop
-- [ ] Lesson-Bilder vorhanden (für IT/Wissenschaft/visuelle Themen)
 - [ ] `terminal-sim.yaml` vorhanden (für IT/Code-Workshops)
-- [ ] Labels auf Examples gesetzt
+- [ ] `rel` auf Examples gesetzt (wo inhaltlich sinnvoll)
 
 ## Schritt 3 — Befund anzeigen
 
@@ -73,18 +74,18 @@ Zeige dem User eine Übersicht:
 ❌ README.md                     Landing Page + Start Workshop Links fehlen
 ✅ CONTRIBUTING.md               vorhanden
 ⚠️  thumbnail.svg                deutsch/ vorhanden, english/ fehlt
-❌ Lesson-Bilder                 0 von 12 (IT-Workshop → empfohlen)
+❌ Lesson-Bilder                 0 von 12 (PFLICHT — ohne Bild sieht Karte leer aus)
 ✅ Schema version 2              alle 12 Lektionen
+❌ Labels                        nur in 4 von 12 Lektionen (PFLICHT auf jedem Example)
 ❌ terminal-sim.yaml             0 von 12 (IT-Workshop → empfohlen)
 ✅ Assessments                   correct: true Format
-⚠️  Labels                       nur in 4 von 12 Lektionen
 
 📝 Geplante Änderungen:
 1. README.md — Links ergänzen
 2. english/docker/thumbnail.svg — erstellen (Kopie mit EN-Text)
-3. Lesson-Bilder — SVG-Diagramme für 8 Lektionen generieren
-4. terminal-sim.yaml — für 10 Lektionen erstellen
-5. Labels — für 8 Lektionen ergänzen
+3. Lesson-Bilder — 12× SVG in images/ generieren (PFLICHT)
+4. Labels — auf allen Examples ergänzen (PFLICHT)
+5. terminal-sim.yaml — für 10 Lektionen erstellen
 
 Fortfahren? (oder --dry-run für nur Analyse)
 ```
@@ -140,24 +141,24 @@ Falls `thumbnail.svg` für eine Sprache fehlt:
 - Übersetze den Titel-Text in die Zielsprache
 - Behalte Farben und Layout
 
-### 4d) Lesson-Bilder generieren (nur für visuelle Workshops)
+### 4d) Lesson-Bilder generieren (PFLICHT für alle Workshops)
 
-**Nur für IT/Code/Wissenschaft/Schritt-für-Schritt-Workshops:**
+**Jede Lektion braucht ein Bild.** Ohne Bild sieht die Lektionskarte im neuen Lernpfad-Layout leer aus.
 
-Analysiere den Lesson-Inhalt und erstelle SVG-Diagramme wo sinnvoll:
-- Architektur-Diagramme (Docker-Architektur, Netzwerk-Topologie)
-- Ablauf-Diagramme (Build-Prozess, Deployment-Pipeline)
-- Schematische Darstellungen (Dateisystem-Baum, Prozess-Hierarchie)
+Für jede Lektion ohne `image`-Feld:
 
-Format: 960×540 SVG, clean und minimal.
+1. Erstelle `images/` Ordner im Lesson-Ordner
+2. Generiere `images/lesson-header.svg` (640×360, 16:9, flat design)
+3. Setze `image: "images/lesson-header.svg"` in `content.yaml`
+4. Setze `image_caption: "[Beschreibung]"` in `content.yaml`
 
-Referenziere in `content.yaml`:
-```yaml
-image: "diagram.svg"
-image_caption: "[Beschreibung]"
-```
+**Bild-Inhalt je nach Workshop-Typ:**
+- **IT/Code:** Architektur-Diagramme, Terminal-Darstellungen, Netzwerk-Topologien
+- **Sprachen:** Thematische Szenen (Café, Marktplatz, Reise), Flaggen, Sprechblasen
+- **Wissenschaft:** Schematische Darstellungen, Prozessdiagramme
+- **Geschichte:** Zeitleisten, Karten, Gebäude-Silhouetten
 
-**NICHT für Sprach-Workshops** — dort sind Bilder in der Regel nicht hilfreich.
+Das Bild soll das **Kernkonzept der Lektion** visuell darstellen — nicht nur ein generischer Hintergrund mit Text.
 
 ### 4e) terminal-sim.yaml generieren (nur für IT/Code-Workshops)
 
@@ -175,14 +176,24 @@ commands:
     hint: "[Erklärung was der Befehl tut]"
 ```
 
-### 4f) Labels ergänzen
+### 4f) Labels ergänzen (PFLICHT auf jedem Example)
 
-Falls Labels fehlen oder inkonsistent sind:
-- Analysiere bestehende Labels im Workshop
-- Ergänze fehlende Labels basierend auf dem Inhalt
-- IT: `Basics`, `Netzwerk`, `Dateisystem`, `Prozesse`, `Konfiguration`
-- Sprachen: `Präsens`, `Futur`, `Passiv`, `Substantiv`, `Verb`
-- Nur hinzufügen, nie bestehende Labels ändern
+**Jedes Example braucht mindestens 1 Label.** Labels werden als Badges auf der Lektionskarte und als Filter in der App angezeigt.
+
+Für jedes Example ohne `labels`:
+- Analysiere den Inhalt (`q`, `a`, Section-Kontext)
+- Setze 1–2 passende Labels
+
+**Label-Katalog nach Workshop-Typ:**
+- IT: `Basics`, `Netzwerk`, `Dateisystem`, `Prozesse`, `Konfiguration`, `Sicherheit`, `Scripting`
+- Sprachen: `Präsens`, `Futur`, `Passiv`, `Substantiv`, `Verb`, `Adjektiv`, `Konversation`
+- Wissenschaft: `Theorie`, `Experiment`, `Formel`, `Anwendung`
+- Geschichte: `Ereignis`, `Person`, `Epoche`, `Kultur`
+
+**Regeln:**
+- Bestehende Labels nie ändern oder entfernen
+- Maximal 3–4 verschiedene Labels pro Lektion
+- Labels konsistent über alle Lektionen verwenden
 
 ## Schritt 5 — Ergebnis
 
@@ -192,11 +203,11 @@ Falls Labels fehlen oder inkonsistent sind:
 Änderungen:
 - README.md: Links ergänzt
 - 2× thumbnail.svg erstellt
-- 8× Lesson-Diagramme generiert
+- 12× Lesson-Bilder in images/ generiert
+- Labels auf [X] Examples ergänzt
 - 10× terminal-sim.yaml erstellt
-- Labels in 8 Lektionen ergänzt
 
-Keine Inhalte verändert (Texte, Erklärungen, Beispiele bleiben unberührt).
+Texte, Erklärungen und Beispiele bleiben unberührt.
 
 → /validate-workshop [name]    Ergebnis prüfen
 → /publish-workshop [name]     Aktualisierte Version veröffentlichen

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.7.0
+- feat: lesson images now mandatory — every lesson must have `image: "images/lesson-header.svg"` with SVG file
+- feat: labels now mandatory on every example — shown as badges on lesson cards
+- feat: all skills updated for new lesson overview layout (sections/examples/assessments stats, progress bars)
+- feat: update-workshop generates missing lesson images and labels (idempotent)
+- feat: translate-workshop copies lesson images to new language folders
+- feat: extend-workshop generates images and labels for new lessons
+- feat: validate-workshop checks lesson images and labels as errors (not hints)
+
 ## 1.6.1
 - docs: add architecture diagram showing Claude Code, Plugin, Workshops, GitHub Pages, and Open Learn Platform
 - docs: explain component connections and full authoring-to-learning cycle

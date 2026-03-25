@@ -170,16 +170,17 @@ Felder die **nicht** übersetzt werden: `q` (bei Sprach-Workshops), `rel`-IDs, `
 - **10–50 strukturierte Lektionen** (Schema Version 2)
 - **Interaktive Assessments** mit `correct`-Markern (input, select, multiple-choice)
 - **SVG-Thumbnails** pro Workshop (thematische Symbole, Farbverlauf)
-- **SVG-Diagramme** als Lesson-Bilder (IT/Wissenschaft: Architektur, Abläufe, Topologien)
+- **SVG-Bilder pro Lektion** (640×360, flat design — Pflicht, wird als Thumbnail auf der Lektionskarte angezeigt)
+- **Labels auf jedem Example** (Pflicht — werden als Badges auf Lektionskarten und als Filter angezeigt)
+- **Learning Items** (`rel`) mit Fortschrittsbalken pro Lektion
 - **README.md** mit Landing Page + Start Workshop Links
-- **Labels** für Filterung und Kategorisierung
 - **CONTRIBUTING.md** für Community-Übersetzungen
 - **GitHub Pages Workflow** für automatisches Deployment
 
 ### Optionale Features
 
 - **terminal-sim.yaml** für IT/Code-Workshops (simulierte Terminal-Befehle)
-- **Bilder** auf Lesson-, Section- und Example-Ebene
+- **Bilder** auf Section- und Example-Ebene (zusätzlich zum Pflicht-Lesson-Bild)
 - **Videos** auf Section-Ebene (YouTube/Vimeo)
 - **Coach-Konfiguration** für E-Mail-basiertes Assessment-Feedback
 - **Audio-Generierung** via `generate-audio.sh`
