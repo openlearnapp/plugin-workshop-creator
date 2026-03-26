@@ -47,6 +47,7 @@ Lies den gesamten Workshop und erstelle einen Befund:
 - [ ] Alle haben `description`-Feld (nicht leer)
 - [ ] Assessments nutzen `correct: true` Marker (nicht veraltetes Format)
 - [ ] `workshops.yaml` hat `color` und `primaryColor`
+- [ ] `workshops.yaml` hat `image`-Feld bei jedem Workshop-Eintrag (z.B. `image: "[thema]/thumbnail.svg"`) — ohne `image` kein Bild auf der Übersichtsseite
 
 ### c) Qualitäts-Check
 - [ ] Mindestens 4 Sections pro Lektion
@@ -74,6 +75,7 @@ Zeige dem User eine Übersicht:
 ❌ README.md                     Landing Page + Start Workshop Links fehlen
 ✅ CONTRIBUTING.md               vorhanden
 ⚠️  thumbnail.svg                deutsch/ vorhanden, english/ fehlt
+❌ Workshop-Bilder               farsi/workshops.yaml: image-Feld fehlt
 ❌ Lesson-Bilder                 0 von 12 (PFLICHT — ohne Bild sieht Karte leer aus)
 ✅ Schema version 2              alle 12 Lektionen
 ❌ Labels                        nur in 4 von 12 Lektionen (PFLICHT auf jedem Example)
@@ -134,7 +136,13 @@ https://open-learn.app/#/add?source=https://open-learn.app/workshop-[thema]/
 - Generiere aus dem Lesson-Inhalt eine 1-Satz-Beschreibung
 - Setze als `description`-Feld
 
-### 4c) Thumbnails ergänzen
+### 4c) workshops.yaml: image-Feld ergänzen
+
+Falls `workshops.yaml` in einer Sprache kein `image`-Feld hat:
+- Ergänze `image: "[thema]/thumbnail.svg"` im Workshop-Eintrag
+- Prüfe ob die referenzierte `thumbnail.svg` existiert (falls nicht → 4d erstellt sie)
+
+### 4d) Thumbnails ergänzen (thumbnail.svg)
 
 Falls `thumbnail.svg` für eine Sprache fehlt:
 - Kopiere vom bestehenden Thumbnail

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.7.2
+- fix: Assessment-Format explizit als Warnung dokumentiert — NIEMALS einfache Strings als Options (erzeugt leere Radio-Buttons)
+- fix: SVG Dark-Mode-Regel: dunkler Hintergrund (#0d1117) empfohlen, kein übersetzungspflichtiger Text in Bildern
+- fix: validate-workshop prüft jetzt URL-Konsistenz (open-learn.app statt openlearnapp.github.io)
+- fix: validate-workshop prüft `image`-Feld in `workshops.yaml`
+- fix: update-workshop ergänzt fehlende `image`-Felder in `workshops.yaml` automatisch
+- fix: translate-workshop und workshop-creator markieren `image`-Feld in `workshops.yaml` als PFLICHT
+- fix: Labels auch auf Assessment-Examples als Pflicht dokumentiert
+
 ## 1.7.1
 - fix: make image generation instructions explicit — skills now say "write the SVG file with Write-Tool" instead of just showing a template
 - fix: step-by-step instructions for each lesson: mkdir images/, Write SVG file, set image field in content.yaml

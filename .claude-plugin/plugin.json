@@ -1,7 +1,7 @@
 {
   "name": "workshop-creator",
   "description": "Claude Code Plugin für die OpenLearn-Plattform — erstellt, übersetzt, erweitert und veröffentlicht YAML-Workshops.",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "author": {
     "name": "OpenLearn",
     "url": "https://open-learn.app"
