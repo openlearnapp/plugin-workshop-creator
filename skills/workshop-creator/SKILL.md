@@ -141,8 +141,10 @@ workshops:
     description: "[1-2 prägnante Sätze]"
     color: "[H S% L%]"
     primaryColor: "[H S% L%]"
-    image: "[thema]/thumbnail.svg"
+    image: "[thema]/thumbnail.svg"    # PFLICHT — ohne image kein Bild auf der Übersichtsseite!
 ```
+
+**PFLICHT:** Das `image`-Feld darf NIEMALS fehlen. Ohne `image` wird der Workshop auf der Übersichtsseite ohne Bild angezeigt.
 
 ### Farbpalette
 | Thema | color | primaryColor |
@@ -194,6 +196,7 @@ sections:
         #   - "[Antwort 2]"
       - q: "[Frage]"
         type: select
+        labels: ["[Kategorie]"]
         options:
           - text: "[Option A]"
             correct: true
@@ -202,6 +205,7 @@ sections:
           - text: "[Option D]"
       - q: "[Frage]"
         type: multiple-choice
+        labels: ["[Kategorie]"]
         options:
           - text: "[Option 1]"
             correct: true
@@ -210,6 +214,12 @@ sections:
           - text: "[Option 4]"
             correct: true
 ```
+
+**ACHTUNG — Assessment-Format:**
+- Options MÜSSEN als Objekte mit `text` und `correct` geschrieben werden
+- NIEMALS einfache Strings als Options verwenden (z.B. `- "Option A"` + separates `a:` Feld)
+- Das veraltete Format (`options: ["string"]` + `a: "string"`) zeigt in der App **leere Radio-Buttons/Checkboxen** ohne sichtbaren Text!
+- Assessment-Examples brauchen auch `labels`
 
 ### README.md (Pflicht — immer erstellen)
 ```markdown
@@ -360,11 +370,13 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 ```
 
 #### SVG-Spezifikation:
-- **Format:** 640×360 Pixel (16:9)
+- **Format:** 640×360 Pixel (16:9) — wird in der App als `aspect-video` + `object-contain` angezeigt
 - **Stil:** Modern, clean, flat design — passend zur Open Learn UI
+- **Dark-Mode-tauglich:** Dunkler Hintergrund (#0d1117 bis #1a2540) funktioniert in beiden Modi. Heller Hintergrund NUR wenn gut getestet.
 - **Inhalt:** Thematisches Diagramm/Illustration zum Kernkonzept der Lektion
 - **Keine externen Bilder:** Nur SVG-Pfade, Formen, Text (kein `<image>`-Tag)
 - **Jedes Bild einzigartig:** Nicht nur gleicher Hintergrund mit anderem Text!
+- **Kein übersetzungspflichtiger Text:** Technische Begriffe (ls, chmod, docker) sind OK. Ganzsätze vermeiden — Bilder werden über Sprachen geteilt.
 
 #### SVG-Vorlage (als Basis — anpassen pro Lektion!):
 ```svg

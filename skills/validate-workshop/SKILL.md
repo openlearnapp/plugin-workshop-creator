@@ -104,6 +104,8 @@ Falls mehrere Sprachen vorhanden:
 - [ ] Jede Lektion hat mindestens 4 Sections
 - [ ] Letzte Section jeder Lektion enthält mindestens 1 Assessment (type: input/select/multiple-choice)
 - [ ] `workshops.yaml` hat `color` und `primaryColor`
+- [ ] `workshops.yaml` hat `image`-Feld bei jedem Workshop-Eintrag (z.B. `image: "[thema]/thumbnail.svg"`) — ohne `image`-Feld fehlt das Workshop-Bild auf der Übersichtsseite
+- [ ] Die im `image`-Feld referenzierte Datei existiert tatsächlich
 - [ ] `thumbnail.svg` existiert und ist valides SVG (pro Sprache/Workshop-Ordner)
 
 ### i) Lesson-Bilder (PFLICHT)
@@ -119,7 +121,13 @@ Falls mehrere Sprachen vorhanden:
 - [ ] Labels sind konsistent über Lektionen hinweg (gleiche Schreibweise)
 - Fehlende Labels als ❌ Fehler melden
 
-### k) Medien & Features (Hinweise)
+### k) URL-Konsistenz
+
+- [ ] `index.html` Landing Page nutzt `open-learn.app` Domain (NICHT `openlearnapp.github.io`)
+- [ ] `README.md` Links nutzen `open-learn.app` Domain
+- [ ] Keine `openlearnapp.github.io` URLs in irgendeiner Datei (wird zu HTTP redirected → Mixed Content Fehler)
+
+### l) Medien & Features (Hinweise)
 
 Zeige als ⚠️ Hinweise (nicht als Fehler):
 - [ ] IT/Code-Workshop ohne `terminal-sim.yaml` → Hinweis: "Terminal-Simulator empfohlen"
@@ -138,6 +146,7 @@ Zeige als ⚠️ Hinweise (nicht als Fehler):
 ✅ Sprach-Konsistenz      [N] Sprachen synchron
 ✅ Deployment             .gitignore ✓, Workflow ✓, Landing Page ✓
 ✅ Qualität               [M] Lektionen, [S] Sections/Lektion, Thumbnails ✓
+✅ Workshop-Bilder        [N]/[N] workshops.yaml mit image-Feld ✓
 ✅ Lesson-Bilder          [M]/[M] Lektionen mit Bild
 ✅ Labels                 [X]/[X] Examples mit Labels
 ⚠️  Medien                terminal-sim: 0/12
@@ -158,6 +167,7 @@ Bei Fehlern:
 ❌ Sprach-Konsistenz      deutsch: 10 Lektionen, english: 8 Lektionen
 ❌ Deployment             .DS_Store gefunden, kein Workflow, nicht in Landing Page
 ✅ Qualität               10 Lektionen, 5 Sections/Lektion
+❌ Workshop-Bilder        farsi/workshops.yaml: image-Feld fehlt bei "آموزش آلمانی"
 ❌ Lesson-Bilder          0/10 Lektionen haben Bilder
 ❌ Labels                 42/180 Examples ohne Labels
 ⚠️  Thumbnails             english/ fehlt

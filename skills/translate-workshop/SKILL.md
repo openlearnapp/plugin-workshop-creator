@@ -128,6 +128,10 @@ workshops:
     image: "[thema-übersetzt]/thumbnail.svg"
 ```
 
+**PFLICHT:** Das `image`-Feld muss in JEDEM Workshop-Eintrag vorhanden sein. Ohne `image`-Feld wird kein Bild auf der Workshop-Übersichtsseite angezeigt. Prüfe nach dem Erstellen, dass:
+1. `image` auf eine existierende `thumbnail.svg` zeigt
+2. Die `thumbnail.svg` im Workshop-Ordner der Zielsprache existiert (ggf. aus Quellsprache kopieren und Text übersetzen)
+
 Farben und Coach-Konfiguration von der Quellsprache übernehmen.
 
 ## Schritt 6 — Übergabe
