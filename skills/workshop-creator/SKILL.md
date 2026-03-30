@@ -48,15 +48,20 @@ workshop-[thema]/
 │       ├── 01-[titel]/
 │       │   ├── content.yaml
 │       │   └── images/
-│       │       └── lesson-header.svg   # PFLICHT: Lesson-Bild (640×360, 16:9)
+│       │       ├── lesson-header.svg              # PFLICHT: Lesson-Bild (640×360)
+│       │       ├── section-01-[kurzname].svg      # PFLICHT: Section-Bild (640×200)
+│       │       ├── section-02-[kurzname].svg
+│       │       └── section-0N-[kurzname].svg
 │       ├── 02-[titel]/
 │       │   ├── content.yaml
 │       │   └── images/
-│       │       └── lesson-header.svg
+│       │       ├── lesson-header.svg
+│       │       └── section-*.svg
 │       └── N-[titel]/
 │           ├── content.yaml
 │           └── images/
-│               └── lesson-header.svg
+│               ├── lesson-header.svg
+│               └── section-*.svg
 ```
 
 ### .gitignore (Pflicht — immer erstellen)
@@ -171,8 +176,8 @@ image_caption: "[Beschreibung des Bildes]"
 sections:
   - title: "[Abschnittstitel]"
     video: "[optionale YouTube/Vimeo-URL]"
-    image: "[optionaler Pfad oder URL]"
-    image_caption: "[optionale Bildunterschrift]"
+    image: "images/section-01-[kurzname].svg"
+    image_caption: "[Beschreibung — was zeigt das Bild]"
     explanation: |
       [Markdown mit **fett**, Tabellen, Listen]
     examples:
@@ -409,14 +414,61 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 | Geschichte | Timeline, Karte, Gebäude | Epochen-Leiste, Weltkarte-Ausschnitt, Tempel-Silhouette |
 | Musik | Noten, Akkorde, Wellen | Notensystem mit Melodie, Gitarren-Griffbrett |
 
-**Auf Section-Ebene (optional):** Zusätzliche Diagramme für Schritt-für-Schritt-Anleitungen:
+### Section-Bilder generieren (PFLICHT — für JEDE Section)
+
+**Jede Section braucht ein Bild.** Section-Bilder machen Lektionen visuell ansprechend und merkbar. Lerner erinnern sich an Inhalte besser, wenn sie visuelle Anker haben (Dual Coding Theory).
+
+#### Schritt-für-Schritt für JEDE Section:
+
+1. **Erstelle die SVG-Datei** mit dem Write-Tool nach `images/section-[nr]-[kurzname].svg` (z.B. `images/section-01-terminal.svg`)
+2. **Setze in `content.yaml`:** `image: "images/section-01-terminal.svg"` und `image_caption: "[Beschreibung]"` auf der Section
+
+#### SVG-Spezifikation für Section-Bilder:
+- **Format:** 640×200 Pixel (breit, Banner-artig) — wird über der Erklärung angezeigt
+- **Stil:** Modern, clean, flat design — passend zum Lesson-Header aber kleiner/feiner
+- **Dark-Mode-tauglich:** Dunkler Hintergrund (#0d1117 bis #1a2540)
+- **Inhalt:** Diagramm/Illustration die den Section-Inhalt visuell zusammenfasst
+- **Keine externen Bilder:** Nur SVG-Pfade, Formen, Text (kein `<image>`-Tag)
+- **Jedes Bild einzigartig:** Muss zum konkreten Section-Thema passen
+- **Kein übersetzungspflichtiger Text:** Technische Begriffe OK, Ganzsätze vermeiden
+
+#### SVG-Vorlage für Section-Bilder:
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200">
+  <defs>
+    <linearGradient id="sbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="200" fill="url(#sbg)" rx="8"/>
+  <!-- HIER: Kompaktes Diagramm zum Section-Thema -->
+</svg>
+```
+
+#### Dateistruktur pro Lektion (mit Section-Bildern):
+```
+01-[titel]/
+├── content.yaml
+└── images/
+    ├── lesson-header.svg              ← Lesson-Bild (640×360)
+    ├── section-01-[kurzname].svg      ← Section 1 Bild (640×200)
+    ├── section-02-[kurzname].svg      ← Section 2 Bild (640×200)
+    ├── section-03-[kurzname].svg      ← Section 3 Bild (640×200)
+    └── section-04-[kurzname].svg      ← Section 4 Bild (640×200)
+```
+
+#### Beispiel content.yaml mit Section-Bildern:
 ```yaml
 sections:
   - title: "Docker-Architektur"
-    image: "images/architecture.svg"
-    image_caption: "Docker Engine, Images und Container"
+    image: "images/section-01-architektur.svg"
+    image_caption: "Docker Engine, Images und Container im Zusammenspiel"
+    explanation: |
+      Docker besteht aus drei Hauptkomponenten...
 ```
-Auch diese SVG-Dateien müssen mit dem Write-Tool erstellt werden.
+
+**Du musst die SVG-Dateien tatsächlich mit dem Write-Tool erstellen!** Nicht nur den Pfad in content.yaml referenzieren.
 
 ## Qualitätsregeln
 
@@ -429,12 +481,13 @@ Auch diese SVG-Dateien müssen mit dem Write-Tool erstellt werden.
 - `version: 2` in jeder content.yaml
 - `description`-Feld in jeder Lektion (wird auf Lesson-Karten angezeigt)
 - **`image`-Feld in JEDER Lektion** — `image: "images/lesson-header.svg"` + SVG-Datei erstellen
+- **`image`-Feld in JEDER Section** — `image: "images/section-[nr]-[kurzname].svg"` + SVG-Datei erstellen. Jede Section braucht ein eigenes Bild!
 - **`labels` auf JEDEM Example** — mindestens 1 Label pro Example (wird als Badge auf der Karte angezeigt)
 - **`rel` auf JEDEM Example** (wo inhaltlich sinnvoll) — wird als Learning Item mit Fortschrittsbalken angezeigt
 
 ### Bilder und Medien
 - **Lesson-Bild (PFLICHT):** `image: "images/lesson-header.svg"` auf Top-Level — wird als Thumbnail auf der Lektionskarte angezeigt. Ohne Bild sieht die Karte leer aus.
-- **Section-Bild (optional):** `image` + `image_caption` auf Section-Ebene — über der Erklärung
+- **Section-Bild (PFLICHT):** `image` + `image_caption` auf JEDER Section — über der Erklärung. Jede Section braucht eine passende Illustration, die den Inhalt visuell zusammenfasst. Ohne Bild wirkt die Lektion trocken und ist schwerer zu merken.
 - **Example-Bild (optional):** `image` + `image_caption` auf Example-Ebene — Thumbnail neben der Frage
 - **Video (optional):** `video`-Feld auf Section-Ebene (YouTube/Vimeo-URL) — wird als Embed angezeigt
 

@@ -51,6 +51,7 @@ Falls Argumente übergeben wurden (z.B. `/extend-workshop linux --lessons 11-20`
    - Neue `rel`-IDs die nicht mit bestehenden kollidieren
    - `description`-Feld in jeder neuen Lektion
    - `image: "images/lesson-header.svg"` in jeder neuen Lektion (PFLICHT)
+   - `image: "images/section-[nr]-[kurzname].svg"` in jeder Section (PFLICHT — 640×200 SVG)
    - `labels` auf jedem Example (PFLICHT — mindestens 1 Label)
    - `rel` auf jedem Example (wo inhaltlich sinnvoll)
 

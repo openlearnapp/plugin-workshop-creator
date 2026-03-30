@@ -162,6 +162,16 @@ Für jede Lektion ohne `image`-Feld:
 
 **Wichtig:** Die SVG-Datei muss tatsächlich mit dem Write-Tool erstellt werden — nicht nur der Pfad in content.yaml!
 
+### 4e) Section-Bilder generieren (PFLICHT für alle Sections)
+
+**Jede Section braucht ein Bild.** Section-Bilder machen Lektionen visuell ansprechend und merkbar.
+
+Für jede Section ohne `image`-Feld:
+
+1. **Write-Tool:** Schreibe die SVG-Datei nach `[lektion]/images/section-[nr]-[kurzname].svg` (640×200, breit/Banner-artig, flat design, thematisch passend zum Section-Inhalt)
+2. **Edit-Tool:** Setze `image: "images/section-[nr]-[kurzname].svg"` in `content.yaml` auf der Section
+3. **Edit-Tool:** Setze `image_caption: "[Beschreibung]"` auf der Section
+
 **Bild-Inhalt je nach Workshop-Typ:**
 - **IT/Code:** Architektur-Diagramme, Terminal-Darstellungen, Netzwerk-Topologien
 - **Sprachen:** Thematische Szenen (Café, Marktplatz, Reise), Flaggen, Sprechblasen

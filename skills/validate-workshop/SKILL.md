@@ -113,7 +113,9 @@ Falls mehrere Sprachen vorhanden:
 - [ ] **Jede Lektion hat ein `image`-Feld** — ohne Bild sieht die Lektionskarte im Lernpfad leer aus
 - [ ] Die referenzierte Bilddatei existiert (z.B. `images/lesson-header.svg`)
 - [ ] Bildformat ist SVG oder PNG, Seitenverhältnis 16:9 empfohlen
-- Fehlende Bilder als ❌ Fehler melden (nicht als Hinweis)
+- [ ] **Jede Section hat ein `image`-Feld** — `images/section-[nr]-[kurzname].svg` (640×200, PFLICHT)
+- [ ] Die referenzierte Section-Bilddatei existiert
+- Fehlende Lesson- oder Section-Bilder als ❌ Fehler melden (nicht als Hinweis)
 
 ### j) Labels (PFLICHT)
 
@@ -148,6 +150,7 @@ Zeige als ⚠️ Hinweise (nicht als Fehler):
 ✅ Qualität               [M] Lektionen, [S] Sections/Lektion, Thumbnails ✓
 ✅ Workshop-Bilder        [N]/[N] workshops.yaml mit image-Feld ✓
 ✅ Lesson-Bilder          [M]/[M] Lektionen mit Bild
+✅ Section-Bilder         [S]/[S] Sections mit Bild
 ✅ Labels                 [X]/[X] Examples mit Labels
 ⚠️  Medien                terminal-sim: 0/12
 
