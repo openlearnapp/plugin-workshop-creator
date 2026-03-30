@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.8.0
+- feat: **Section-Bilder jetzt PFLICHT** — jede Section braucht ein eigenes SVG-Bild (640×160)
+- feat: **Terminal-Card-Stil** — Rahmen, macOS-Titelleiste, inhaltsspezifische Darstellung
+- feat: Naming-Convention: `images/section-[nr]-[kurzname].svg` pro Section
+- feat: SVG-Vorlage aktualisiert: Terminal-Card mit Farbpalette und Befehls-Hinweisen
+- feat: validate-workshop prüft jetzt Section-Bilder als Fehler
+- feat: update-workshop generiert fehlende Section-Bilder automatisch
+- feat: extend-workshop generiert Section-Bilder für neue Lektionen
+- docs: Ordnerstruktur aktualisiert (section-*.svg neben lesson-header.svg)
+
 ## 1.7.2
 - fix: Assessment-Format explizit als Warnung dokumentiert — NIEMALS einfache Strings als Options (erzeugt leere Radio-Buttons)
 - fix: SVG Dark-Mode-Regel: dunkler Hintergrund (#0d1117) empfohlen, kein übersetzungspflichtiger Text in Bildern
