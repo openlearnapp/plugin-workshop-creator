@@ -1,9 +1,10 @@
 # Changelog
 
 ## 1.8.0
-- feat: **Section-Bilder jetzt PFLICHT** — jede Section braucht ein eigenes SVG-Bild (640×200)
+- feat: **Section-Bilder jetzt PFLICHT** — jede Section braucht ein eigenes SVG-Bild (640×160)
+- feat: **Terminal-Card-Stil** — Rahmen, macOS-Titelleiste, inhaltsspezifische Darstellung
 - feat: Naming-Convention: `images/section-[nr]-[kurzname].svg` pro Section
-- feat: SVG-Vorlage für Section-Bilder hinzugefügt (Banner-Format 640×200)
+- feat: SVG-Vorlage aktualisiert: Terminal-Card mit Farbpalette und Befehls-Hinweisen
 - feat: validate-workshop prüft jetzt Section-Bilder als Fehler
 - feat: update-workshop generiert fehlende Section-Bilder automatisch
 - feat: extend-workshop generiert Section-Bilder für neue Lektionen

@@ -113,7 +113,7 @@ Falls mehrere Sprachen vorhanden:
 - [ ] **Jede Lektion hat ein `image`-Feld** — ohne Bild sieht die Lektionskarte im Lernpfad leer aus
 - [ ] Die referenzierte Bilddatei existiert (z.B. `images/lesson-header.svg`)
 - [ ] Bildformat ist SVG oder PNG, Seitenverhältnis 16:9 empfohlen
-- [ ] **Jede Section hat ein `image`-Feld** — `images/section-[nr]-[kurzname].svg` (640×200, PFLICHT)
+- [ ] **Jede Section hat ein `image`-Feld** — `images/section-[nr]-[kurzname].svg` (640×160, PFLICHT)
 - [ ] Die referenzierte Section-Bilddatei existiert
 - Fehlende Lesson- oder Section-Bilder als ❌ Fehler melden (nicht als Hinweis)
 

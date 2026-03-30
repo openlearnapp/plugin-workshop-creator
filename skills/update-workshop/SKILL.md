@@ -168,7 +168,7 @@ Für jede Lektion ohne `image`-Feld:
 
 Für jede Section ohne `image`-Feld:
 
-1. **Write-Tool:** Schreibe die SVG-Datei nach `[lektion]/images/section-[nr]-[kurzname].svg` (640×200, breit/Banner-artig, flat design, thematisch passend zum Section-Inhalt)
+1. **Write-Tool:** Schreibe die SVG-Datei nach `[lektion]/images/section-[nr]-[kurzname].svg` (640×160, breit/Banner-artig, flat design, thematisch passend zum Section-Inhalt)
 2. **Edit-Tool:** Setze `image: "images/section-[nr]-[kurzname].svg"` in `content.yaml` auf der Section
 3. **Edit-Tool:** Setze `image_caption: "[Beschreibung]"` auf der Section
 

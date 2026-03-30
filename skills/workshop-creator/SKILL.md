@@ -49,7 +49,7 @@ workshop-[thema]/
 │       │   ├── content.yaml
 │       │   └── images/
 │       │       ├── lesson-header.svg              # PFLICHT: Lesson-Bild (640×360)
-│       │       ├── section-01-[kurzname].svg      # PFLICHT: Section-Bild (640×200)
+│       │       ├── section-01-[kurzname].svg      # PFLICHT: Section-Bild (640×160)
 │       │       ├── section-02-[kurzname].svg
 │       │       └── section-0N-[kurzname].svg
 │       ├── 02-[titel]/
@@ -424,25 +424,36 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 2. **Setze in `content.yaml`:** `image: "images/section-01-terminal.svg"` und `image_caption: "[Beschreibung]"` auf der Section
 
 #### SVG-Spezifikation für Section-Bilder:
-- **Format:** 640×200 Pixel (breit, Banner-artig) — wird über der Erklärung angezeigt
-- **Stil:** Modern, clean, flat design — passend zum Lesson-Header aber kleiner/feiner
-- **Dark-Mode-tauglich:** Dunkler Hintergrund (#0d1117 bis #1a2540)
-- **Inhalt:** Diagramm/Illustration die den Section-Inhalt visuell zusammenfasst
+- **Format:** 640×160 Pixel (Terminal-Card-Stil) — wird über der Erklärung angezeigt
+- **Stil:** Terminal-Card mit Rahmen, Titelleiste (macOS-Dots), und inhaltsspezifischer Darstellung
+- **Dark-Mode-tauglich:** Dunkler Hintergrund (#0d1117), Rahmen in Lektion-Akzentfarbe
+- **Inhalt:** Muss auf einen Blick zeigen was die Section lehrt — Befehle, Diagramme, Strukturen
 - **Keine externen Bilder:** Nur SVG-Pfade, Formen, Text (kein `<image>`-Tag)
-- **Jedes Bild einzigartig:** Muss zum konkreten Section-Thema passen
-- **Kein übersetzungspflichtiger Text:** Technische Begriffe OK, Ganzsätze vermeiden
+- **Jedes Bild einzigartig:** Muss zum konkreten Section-Thema passen, nicht generisch
+- **Kein übersetzungspflichtiger Text:** Technische Begriffe OK (ls, chmod, grep), Ganzsätze vermeiden
+- **Terminal-Check Sections:** Einheitliches Quiz-Design mit Terminal + Checkmark
 
-#### SVG-Vorlage für Section-Bilder:
+#### Farbpalette (konsistent mit Lesson-Headers):
+- Hintergrund: `#0d1117` (dunkel), Rahmen: Akzentfarbe mit `stroke-opacity="0.4"`
+- Titelleiste: `#161b22`, macOS-Dots: `#f85149` / `#f0883e` / `#3fb950`
+- Grün: `#3fb950` (Erfolg, Befehle), Blau: `#58a6ff` (Info, Navigation)
+- Orange: `#f0883e` (Warnung, Git), Rot: `#f85149` (Fehler, Löschen)
+- Lila: `#bc8cff` (Special), Grau: `#8b949e` (gedämpfter Text)
+
+#### SVG-Vorlage für Section-Bilder (Terminal-Card):
 ```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200">
-  <defs>
-    <linearGradient id="sbg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
-    </linearGradient>
-  </defs>
-  <rect width="640" height="200" fill="url(#sbg)" rx="8"/>
-  <!-- HIER: Kompaktes Diagramm zum Section-Thema -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" width="640" height="160">
+  <rect width="640" height="160" fill="#0d1117" rx="10" stroke="AKZENTFARBE" stroke-width="1.5" stroke-opacity="0.4"/>
+  <!-- Titelleiste mit macOS-Dots -->
+  <rect x="1" y="1" width="638" height="28" rx="10" fill="#161b22"/>
+  <rect x="1" y="20" width="638" height="9" fill="#161b22"/>
+  <circle cx="18" cy="14" r="5" fill="#f85149" opacity="0.8"/>
+  <circle cx="34" cy="14" r="5" fill="#f0883e" opacity="0.8"/>
+  <circle cx="50" cy="14" r="5" fill="#3fb950" opacity="0.8"/>
+  <text x="320" y="18" text-anchor="middle" font-family="monospace" font-size="11" fill="#8b949e">Section-Titel</text>
+  <!-- HIER: Inhaltsspezifische Darstellung (Befehle, Diagramme, Strukturen) -->
+  <!-- Befehls-Hinweis unten (optional) -->
+  <text x="320" y="145" text-anchor="middle" font-family="monospace" font-size="9" fill="AKZENTFARBE" opacity="0.5">$ befehl → Beschreibung</text>
 </svg>
 ```
 
@@ -452,10 +463,10 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 ├── content.yaml
 └── images/
     ├── lesson-header.svg              ← Lesson-Bild (640×360)
-    ├── section-01-[kurzname].svg      ← Section 1 Bild (640×200)
-    ├── section-02-[kurzname].svg      ← Section 2 Bild (640×200)
-    ├── section-03-[kurzname].svg      ← Section 3 Bild (640×200)
-    └── section-04-[kurzname].svg      ← Section 4 Bild (640×200)
+    ├── section-01-[kurzname].svg      ← Section 1 Bild (640×160, Terminal-Card)
+    ├── section-02-[kurzname].svg      ← Section 2 Bild (640×160, Terminal-Card)
+    ├── section-03-[kurzname].svg      ← Section 3 Bild (640×160, Terminal-Card)
+    └── section-04-[kurzname].svg      ← Section 4 Bild (640×160, Terminal-Card)
 ```
 
 #### Beispiel content.yaml mit Section-Bildern:
