@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.9.0
+- feat: **Story Mode** — neuer Workshop-Typ für interaktive Geschichten mit Verzweigungen
+- feat: `voice` Feld auf Examples — Erzähler (`narrator`) oder Figuren-Name
+- feat: `goto: { lesson, section }` auf Options — Branching-Navigation bei Auswahl
+- feat: `goto_correct` / `goto_wrong` auf Fragen — bedingte Weiterleitung
+- feat: `answers[]` mit `goto` auf Input-Typ — mehrere akzeptierte Antworten mit individuellem Ziel
+- feat: `image` auf Options — Bild pro Auswahlmöglichkeit
+- feat: Workshop-Ebene `labels` in `workshops.yaml` für Genre/Zielgruppe
+- docs: Story Mode Sektion in workshop-creator Skill mit vollständigem Schema
+- docs: `workshop-milas-abenteuer` als Referenz-Beispiel dokumentiert
+- docs: README mit Workshop-Typen Übersicht (Lern-Workshop vs. Story-Workshop)
+
 ## 1.8.0
 - feat: **Section-Bilder jetzt PFLICHT** — jede Section braucht ein eigenes SVG-Bild (640×160)
 - feat: **Terminal-Card-Stil** — Rahmen, macOS-Titelleiste, inhaltsspezifische Darstellung

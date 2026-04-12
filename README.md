@@ -165,8 +165,26 @@ Jeder Workshop enthält eine `CONTRIBUTING.md` mit Anleitung für Contributors. 
 
 Felder die **nicht** übersetzt werden: `q` (bei Sprach-Workshops), `rel`-IDs, `labels`, `type`, `correct`.
 
+## Workshop-Typen
+
+### Lern-Workshop (Standard)
+Strukturierte Lektionen mit Wissensvermittlung und Assessment — für Sprachen, IT, Wissenschaft, etc.
+
+### Story-Workshop (Story Mode)
+Interaktive Geschichten mit Entscheidungen und Verzweigungen. Lerner wählen aktiv den Handlungsverlauf.
+
+**Neue YAML-Felder für Story Mode:**
+- `voice: narrator` / `voice: [charakter]` — Erzähler oder Figur spricht
+- `goto: { lesson: N, section: N }` auf Options — Navigation bei Auswahl
+- `goto_correct` / `goto_wrong` auf Fragen — bedingte Navigation
+- `answers: [{text, goto}]` bei Input-Fragen — mehrere Antworten mit individuellem Ziel
+- `image` auf Options — Bild pro Auswahlmöglichkeit
+
+Referenz-Beispiel: [`workshop-milas-abenteuer`](https://github.com/openlearnapp/workshop-milas-abenteuer)
+
 ## Was wird generiert?
 
+### Lern-Workshop
 - **10–50 strukturierte Lektionen** (Schema Version 2)
 - **Interaktive Assessments** mit `correct`-Markern (input, select, multiple-choice)
 - **SVG-Thumbnails** pro Workshop (thematische Symbole, Farbverlauf)
@@ -176,6 +194,12 @@ Felder die **nicht** übersetzt werden: `q` (bei Sprach-Workshops), `rel`-IDs, `
 - **README.md** mit Landing Page + Start Workshop Links
 - **CONTRIBUTING.md** für Community-Übersetzungen
 - **GitHub Pages Workflow** für automatisches Deployment
+
+### Story-Workshop
+- **Verzweigte Lektionen** mit `goto`-Navigation
+- **Charaktere** mit `voice`-Feld pro Example
+- **Entscheidungen** mit Bild-Optionen und bedingter Weiterleitung
+- **Gleiche Infrastruktur** wie Lern-Workshops (GitHub Pages, index.yaml, etc.)
 
 ### Optionale Features
 

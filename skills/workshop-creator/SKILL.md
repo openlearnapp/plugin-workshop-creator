@@ -9,17 +9,20 @@ allowed-tools: Write, Read, Glob, Bash, Grep
 
 Du erstellst vollständige Lernworkshops im YAML-Format für **open-learn.app**.
 
-## Schritt 1 — Thema und Sprachen klären
+## Schritt 1 — Thema, Typ und Sprachen klären
 
 Frage den User nach:
-- **Thema:** Was soll gelehrt werden? (z.B. "Python Grundlagen", "Japanisch", "Erste Hilfe")
+- **Typ:** Lern-Workshop (Wissen, Sprachen, IT) oder **Story-Workshop** (interaktive Geschichte mit Entscheidungen)?
+- **Thema:** Was soll gelehrt/erzählt werden? (z.B. "Python Grundlagen", "Japanisch", "Milas Abenteuer")
 - **Sprache:** In welcher Interface-Sprache? (Standard: deutsch — weitere Sprachen später mit `/translate-workshop` hinzufügen)
-- **Lektionen:** Wie viele? (Standard: 10, empfohlen: 12)
-- **Zielgruppe:** Anfänger / Fortgeschrittene?
+- **Lektionen:** Wie viele? (Lern-Workshop: Standard 10, empfohlen 12 — Story-Workshop: je nach Verzweigungstiefe, min. 3)
+- **Zielgruppe:** Anfänger / Fortgeschrittene? (für Lern-Workshops) / Altersgruppe? (für Story-Workshops)
 
 Falls der User ein Argument übergibt (z.B. `/workshop-creator Linux`), nutze das als Thema und frage nur nach fehlenden Details.
 
 **Wichtig:** Erstelle den Workshop zunächst in **einer Sprache**. Wenn der Inhalt ausgereift ist, können weitere Sprachen mit `/translate-workshop` hinzugefügt werden.
+
+Bei **Story-Workshops**: Springe zu [Story Mode](#story-mode-workshops) am Ende dieser Skill-Datei.
 
 ## Schritt 2 — Workshop-Ordner erstellen
 
@@ -575,6 +578,141 @@ cd /Users/reza/Github/openlearnapp/openlearnapp.github.io
 ./generate-audio.sh /Users/reza/Github/openlearnapp/workshops/workshop-[name]/[sprache]/[thema]/01-[titel]/
 ```
 Voraussetzungen: macOS mit `say`, `yq` (`brew install yq`), `ffmpeg` (`brew install ffmpeg`).
+
+## Story Mode Workshops
+
+Story-Workshops sind interaktive Geschichten mit Entscheidungen und Verzweigungen — kein klassischer Lernpfad, sondern ein narratives Erlebnis (z.B. `workshop-milas-abenteuer`).
+
+### Struktur
+
+Gleiche Ordnerstruktur wie Lern-Workshops, aber `content.yaml` nutzt andere Felder.
+
+### workshops.yaml (Story Mode)
+
+```yaml
+workshops:
+  - folder: [story-name]
+    code: de-DE
+    title: "[Titel]"
+    description: "[1-2 Sätze Beschreibung]"
+    color: "[H S% L%]"
+    primaryColor: "[H S% L%]"
+    image: "[story-name]/thumbnail.svg"
+    labels: ["[Genre]", "[Zielgruppe]"]   # Workshop-Ebene: Genres, Altersgruppen
+```
+
+### content.yaml Schema (Story Mode)
+
+```yaml
+number: [N]
+title: "[Kapitel-/Szenen-Titel]"
+description: "[Ein Satz was in dieser Szene passiert]"
+image: "images/[szene].svg"
+
+sections:
+  - title: "[Szenen-Abschnitt]"
+    image: "images/[bild].svg"
+    examples:
+
+      # --- NARRATION ---
+      # voice: narrator = Erzählerstimme
+      # voice: [charakter] = Figur spricht (z.B. fridolin, grandma, mila)
+      - q: "[Text der erzählt oder gesprochen wird]"
+        voice: narrator
+
+      - q: "'Dialog-Text hier,' sagte [Charakter]."
+        voice: [charakter-name]
+
+      # --- ENTSCHEIDUNG (Branching ohne richtig/falsch) ---
+      # goto auf Option-Ebene: Leser wählt Weg, geht zu Lektion+Section
+      - q: "Wohin soll [Charakter] gehen?"
+        type: select
+        options:
+          - text: "Option A"
+            image: "images/option-a.svg"       # optional: Bild pro Option
+            goto: { lesson: 2, section: 0 }    # Springe zu Lektion 2, Section 0
+          - text: "Option B"
+            image: "images/option-b.svg"
+            goto: { lesson: 3, section: 0 }
+
+      # --- QUIZ MIT BEDINGTER WEITERLEITUNG ---
+      # goto_correct / goto_wrong auf Frage-Ebene
+      # Typ: select (eine richtige Antwort)
+      - q: "Wie heißt der Frosch?"
+        type: select
+        goto_correct: { lesson: 2, section: 2 }    # Bei richtiger Antwort
+        goto_wrong: { lesson: 2, section: 1 }       # Bei falscher Antwort
+        options:
+          - text: "Fridolin"
+            correct: true
+          - text: "Ferdinand"
+          - text: "Friedrich"
+
+      # Typ: multiple-choice (mehrere richtige Antworten)
+      - q: "Was hat Mila am Fluss gesehen?"
+        type: multiple-choice
+        goto_correct: { lesson: 2, section: 3 }
+        goto_wrong: { lesson: 2, section: 2 }
+        options:
+          - text: "Einen Frosch"
+            correct: true
+          - text: "Einen Drachen"
+          - text: "Einen Fluss"
+            correct: true
+          - text: "Ein Einhorn"
+
+      # Typ: input mit mehreren akzeptierten Antworten
+      # answers[] statt a: — jede Antwort hat eigenes goto
+      - q: "Was hatte die alte Frau?"
+        type: input
+        answers:
+          - text: "ein Buch"
+            goto: { lesson: 3, section: 2 }
+          - text: "Buch"
+            goto: { lesson: 3, section: 2 }
+          - text: "ein großes Buch"
+            goto: { lesson: 3, section: 2 }
+        goto_wrong: { lesson: 3, section: 1 }    # Bei keiner Übereinstimmung
+```
+
+### goto-Referenz
+
+| Feld | Wo | Bedeutung |
+|------|----|-----------|
+| `goto` | auf `option` | Bei Auswahl dieser Option — springt zu `{ lesson: N, section: N }` |
+| `goto_correct` | auf `example` | Bei richtiger Antwort (select, multiple-choice, input) |
+| `goto_wrong` | auf `example` | Bei falscher Antwort |
+| `voice` | auf `example` | Sprecherin: `narrator` oder Figuren-Name (z.B. `fridolin`, `grandma`) |
+
+**lesson** = 1-basierter Index der Lektion (wie in `lessons.yaml`)
+**section** = 0-basierter Index der Section innerhalb der Lektion
+
+### Qualitätsregeln für Story Mode
+
+- **Kein `version: 2` Pflicht** — Story Mode hat kein Schema-Versionierungsfeld
+- **Keine Pflicht-`labels` per Example** — Story Mode nutzt `labels` nur auf Workshop-Ebene
+- **Keine `rel`-IDs** — Story Mode hat keine Vokabel-/Fortschrittsverfolgung
+- **Jede Lektion braucht ein Bild** — `image` auf Top-Level (PFLICHT)
+- **Jede Section braucht ein Bild** — `image` auf Section-Ebene (PFLICHT)
+- **Branches schließen sich** — Alle Verzweigungen müssen in gemeinsamen Szenen enden (keine Sackgassen)
+- **Charaktere konsistent benennen** — `voice`-Werte einmal festlegen und konsequent nutzen
+- **Min. 3 Lektionen** — pro Entscheidungstiefe eine Lektion (z.B. L1 = Intro, L2 = Weg A, L3 = Weg B)
+- **Entscheidungen beschriften** — Options-Text klar und eindeutig formulieren
+
+### Bilder für Story Mode
+
+- **Lesson-Header (PFLICHT):** 640×360 SVG — zeigt die Hauptszene der Lektion
+- **Section-Bilder (PFLICHT):** 640×160 SVG — Terminal-Card-Stil oder Szenenausschnitt
+- **Options-Bilder (optional):** SVG pro Auswahlmöglichkeit — macht Entscheidungen visuell greifbar
+- **Charakterbilder:** Konsistente Illustration pro Figur (wird mehrfach referenziert)
+
+### Beispiel: Milas Abenteuer
+
+`workshop-milas-abenteuer` ist das Referenz-Beispiel für Story Mode:
+- 3 Lektionen: Einleitung → Weg A (Fluss) / Weg B (Haus)
+- Figuren: `narrator`, `fridolin`, `grandma`
+- Entscheidungen: Freie Wahl (goto auf options) + Quiz mit goto_correct/goto_wrong
+- Input-Antworten: answers[] mit individuellem goto pro Antwort
 
 ## Was du NICHT tust
 - Kein Git, kein Push, kein PR
