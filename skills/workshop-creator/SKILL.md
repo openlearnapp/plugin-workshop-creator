@@ -687,6 +687,23 @@ sections:
 **lesson** = 1-basierter Index der Lektion (wie in `lessons.yaml`)
 **section** = 0-basierter Index der Section innerhalb der Lektion
 
+### Navigation im Story Mode (UX)
+
+Der Story Mode hat zwei Navigationsebenen — berücksichtige das beim Schreiben:
+
+**Links/Rechts-Tippen (egal wo auf dem Bildschirm):**
+- Rechts → nächster Absatz (Example) innerhalb der aktuellen Section — Audio springt mit
+- Links → vorheriger Absatz innerhalb der aktuellen Section
+- Section wechselt automatisch nach dem letzten Absatz
+
+**„zurück / weiter" Buttons (unten im Buch):**
+- Wechseln Seiten innerhalb einer Section, wenn eine Section mehr als ~5 Absätze hat
+
+**Konsequenz fürs Schreiben:**
+- Jede Section sollte **2–6 Absätze** haben — dann ist eine Section = eine Bildschirmansicht ohne Paginierung
+- Absätze sollen kurz und klar sein — sie werden einzeln vorgelesen
+- Entscheidungs-Examples (type: select/multiple-choice/input) am **Ende einer Section** platzieren — nie mittendrin
+
 ### Qualitätsregeln für Story Mode
 
 - **Kein `version: 2` Pflicht** — Story Mode hat kein Schema-Versionierungsfeld

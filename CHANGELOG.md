@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.1
+- docs: Story Mode Navigation erklärt — Links/Rechts-Tippen springt Absatz (nicht Section), Sections haben idealerweise 2–6 Absätze, Entscheidungs-Examples ans Section-Ende
+
 ## 1.9.0
 - feat: **Story Mode** — neuer Workshop-Typ für interaktive Geschichten mit Verzweigungen
 - feat: `voice` Feld auf Examples — Erzähler (`narrator`) oder Figuren-Name

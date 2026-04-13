@@ -10,7 +10,7 @@
       "name": "workshop-creator",
       "source": "./",
       "description": "Erstellt, übersetzt, erweitert, validiert und veröffentlicht YAML-Workshops für open-learn.app",
-      "version": "1.9.0"
+      "version": "1.9.1"
     }
   ]
 }
