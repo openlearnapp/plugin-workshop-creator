@@ -378,32 +378,61 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 ```
 
 #### SVG-Spezifikation:
-- **Format:** 640×360 Pixel (16:9) — wird in der App als `aspect-video` + `object-contain` angezeigt
-- **Stil:** Modern, clean, flat design — passend zur Open Learn UI
-- **Dark-Mode-tauglich:** Dunkler Hintergrund (#0d1117 bis #1a2540) funktioniert in beiden Modi. Heller Hintergrund NUR wenn gut getestet.
-- **Inhalt:** Thematisches Diagramm/Illustration zum Kernkonzept der Lektion
+- **Format:** 640×270 Pixel (Hero-Stil) — wird in der App `w-full` angezeigt und skaliert proportional
+- **Stil:** Educational Hero — großes Emoji/Icon, Titel, Untertitel, 3 animierte Feature-Karten
+- **Dark-Mode-tauglich:** Dunkler Hintergrund `#0d1117`, Header-Leiste `#161b22`
+- **Inhalt:** Übersicht der Lektion — Emoji, Lesson-Titel, Subtitle mit Kernbefehlen, 3 Karten für Hauptthemen
 - **Keine externen Bilder:** Nur SVG-Pfade, Formen, Text (kein `<image>`-Tag)
-- **Jedes Bild einzigartig:** Nicht nur gleicher Hintergrund mit anderem Text!
-- **Kein übersetzungspflichtiger Text:** Technische Begriffe (ls, chmod, docker) sind OK. Ganzsätze vermeiden — Bilder werden über Sprachen geteilt.
+- **Sprach-spezifisch:** Jede Sprache hat eigene übersetzten SVGs — Bilder werden NICHT über Sprachen geteilt
+- **Animation:** Sequentielles Einblenden (title → subtitle → Karte 1 → Karte 2 → Karte 3 → Footer), 11–13s Loop
 
-#### SVG-Vorlage (als Basis — anpassen pro Lektion!):
+#### SVG-Vorlage (Lesson-Header Hero-Stil):
 ```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="[helle Workshop-Farbe]"/>
-      <stop offset="100%" stop-color="[etwas dunklere Farbe]"/>
-    </linearGradient>
-  </defs>
-  <rect width="640" height="360" fill="url(#bg)" rx="12"/>
-
-  <!-- HIER: Thematisches Diagramm als SVG-Pfade/Formen -->
-  <!-- Beispiel IT: Terminal-Fenster, Server-Racks, Netzwerk-Linien -->
-  <!-- Beispiel Sprache: Sprechblasen, Flaggen, Buchstaben -->
-  <!-- Beispiel Wissenschaft: Atome, Formeln, Diagramme -->
-
-  <text x="320" y="330" text-anchor="middle" font-family="system-ui,sans-serif"
-        font-size="16" fill="white" fill-opacity="0.7">[Lektion-Titel]</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" width="640" height="270">
+<style>
+  .f { font-family: sans-serif; }
+  .ti { animation: tia 13s infinite; }
+  @keyframes tia { 0%,3%{opacity:0} 7%,87%{opacity:1} 92%,100%{opacity:0} }
+  .sub { animation: suba 13s infinite; }
+  @keyframes suba { 0%,10%{opacity:0} 14%,87%{opacity:1} 92%,100%{opacity:0} }
+  .c1 { animation: c1a 13s infinite; }
+  @keyframes c1a { 0%,18%{opacity:0} 24%,87%{opacity:1} 92%,100%{opacity:0} }
+  .c2 { animation: c2a 13s infinite; }
+  @keyframes c2a { 0%,38%{opacity:0} 44%,87%{opacity:1} 92%,100%{opacity:0} }
+  .c3 { animation: c3a 13s infinite; }
+  @keyframes c3a { 0%,56%{opacity:0} 62%,87%{opacity:1} 92%,100%{opacity:0} }
+  .ft { animation: fta 13s infinite; }
+  @keyframes fta { 0%,72%{opacity:0} 76%,87%{opacity:1} 92%,100%{opacity:0} }
+</style>
+<rect width="640" height="270" rx="12" fill="#0d1117"/>
+<rect width="640" height="38" rx="12" fill="#161b22"/>
+<rect y="26" width="640" height="12" fill="#161b22"/>
+<!-- Großes Emoji-Icon -->
+<text x="320" y="90" text-anchor="middle" font-size="44">[EMOJI]</text>
+<!-- Titel -->
+<text class="f ti" x="320" y="125" text-anchor="middle" font-size="20" fill="#e6edf3" font-weight="bold">[Lektion-Titel]</text>
+<!-- Untertitel mit Kernbefehlen -->
+<text class="f sub" x="320" y="148" text-anchor="middle" font-size="11" fill="#6e7681">[Befehl1] · [Befehl2] · [Befehl3]</text>
+<!-- 3 Feature-Karten -->
+<g class="c1">
+  <rect x="20" y="162" width="185" height="72" rx="8" fill="#0d1520" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="112" y="192" text-anchor="middle" font-size="22">[EMOJI1]</text>
+  <text class="f" x="112" y="212" text-anchor="middle" font-size="11" fill="#58a6ff" font-weight="bold">[Thema 1]</text>
+  <text class="f" x="112" y="227" text-anchor="middle" font-size="9" fill="#8b949e">[Kurzbeschreibung]</text>
+</g>
+<g class="c2">
+  <rect x="227" y="162" width="185" height="72" rx="8" fill="#0a1a0d" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="319" y="192" text-anchor="middle" font-size="22">[EMOJI2]</text>
+  <text class="f" x="319" y="212" text-anchor="middle" font-size="11" fill="#3fb950" font-weight="bold">[Thema 2]</text>
+  <text class="f" x="319" y="227" text-anchor="middle" font-size="9" fill="#8b949e">[Kurzbeschreibung]</text>
+</g>
+<g class="c3">
+  <rect x="434" y="162" width="185" height="72" rx="8" fill="#1a0f08" stroke="#f0883e" stroke-width="1.5"/>
+  <text x="526" y="192" text-anchor="middle" font-size="22">[EMOJI3]</text>
+  <text class="f" x="526" y="212" text-anchor="middle" font-size="11" fill="#f0883e" font-weight="bold">[Thema 3]</text>
+  <text class="f" x="526" y="227" text-anchor="middle" font-size="9" fill="#8b949e">[Kurzbeschreibung]</text>
+</g>
+<text class="f ft" x="320" y="258" text-anchor="middle" font-size="9" fill="#6e7681">[Footer-Tipp]</text>
 </svg>
 ```
 
@@ -427,36 +456,76 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 2. **Setze in `content.yaml`:** `image: "images/section-01-terminal.svg"` und `image_caption: "[Beschreibung]"` auf der Section
 
 #### SVG-Spezifikation für Section-Bilder:
-- **Format:** 640×160 Pixel (Terminal-Card-Stil) — wird über der Erklärung angezeigt
-- **Stil:** Terminal-Card mit Rahmen, Titelleiste (macOS-Dots), und inhaltsspezifischer Darstellung
-- **Dark-Mode-tauglich:** Dunkler Hintergrund (#0d1117), Rahmen in Lektion-Akzentfarbe
-- **Inhalt:** Muss auf einen Blick zeigen was die Section lehrt — Befehle, Diagramme, Strukturen
+- **Format:** 640×210 (3 Karten) oder 640×230 (4 Karten) — wird `w-full` angezeigt
+- **Stil:** Educational Infographic — Karten mit farbigen Borders, Emojis, Sans-serif — KEIN Terminal-Fenster, KEINE macOS-Dots
+- **Dark-Mode-tauglich:** Hintergrund `#0d1117`, Header-Leiste `#161b22`
+- **Inhalt:** Erklärt den Section-Inhalt mit 3–4 Karten (je eine Karte pro Kernkonzept)
 - **Keine externen Bilder:** Nur SVG-Pfade, Formen, Text (kein `<image>`-Tag)
-- **Jedes Bild einzigartig:** Muss zum konkreten Section-Thema passen, nicht generisch
-- **Kein übersetzungspflichtiger Text:** Technische Begriffe OK (ls, chmod, grep), Ganzsätze vermeiden
-- **Terminal-Check Sections:** Einheitliches Quiz-Design mit Terminal + Checkmark
+- **Sprach-spezifisch:** Text in der Sprache des Workshops — NICHT sprachübergreifend teilen
+- **Animation:** Sequentielles Einblenden der Karten (c1 → c2 → c3 → c4), 11s Loop
+- **Schrift:** `font-family: sans-serif` — NIEMALS monospace für Karten-Labels
 
-#### Farbpalette (konsistent mit Lesson-Headers):
-- Hintergrund: `#0d1117` (dunkel), Rahmen: Akzentfarbe mit `stroke-opacity="0.4"`
-- Titelleiste: `#161b22`, macOS-Dots: `#f85149` / `#f0883e` / `#3fb950`
-- Grün: `#3fb950` (Erfolg, Befehle), Blau: `#58a6ff` (Info, Navigation)
-- Orange: `#f0883e` (Warnung, Git), Rot: `#f85149` (Fehler, Löschen)
-- Lila: `#bc8cff` (Special), Grau: `#8b949e` (gedämpfter Text)
+#### Farbpalette:
+- Hintergrund: `#0d1117`, Header: `#161b22`
+- Blau: `#58a6ff` (Info), Grün: `#3fb950` (Erfolg/Empfehlung), Orange: `#f0883e` (Warnung)
+- Rot: `#f85149` (Löschen/Gefahr), Lila: `#bc8cff` (Special), Grau: `#8b949e` (Subtext)
+- Karten-Hintergrund: `#0d1520` (blau), `#0a1a0d` (grün), `#1a0f08` (orange), `#180a0a` (rot)
 
-#### SVG-Vorlage für Section-Bilder (Terminal-Card):
+#### SVG-Vorlage für Section-Bilder (Educational Infographic — 4 Karten):
 ```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" width="640" height="160">
-  <rect width="640" height="160" fill="#0d1117" rx="10" stroke="AKZENTFARBE" stroke-width="1.5" stroke-opacity="0.4"/>
-  <!-- Titelleiste mit macOS-Dots -->
-  <rect x="1" y="1" width="638" height="28" rx="10" fill="#161b22"/>
-  <rect x="1" y="20" width="638" height="9" fill="#161b22"/>
-  <circle cx="18" cy="14" r="5" fill="#f85149" opacity="0.8"/>
-  <circle cx="34" cy="14" r="5" fill="#f0883e" opacity="0.8"/>
-  <circle cx="50" cy="14" r="5" fill="#3fb950" opacity="0.8"/>
-  <text x="320" y="18" text-anchor="middle" font-family="monospace" font-size="11" fill="#8b949e">Section-Titel</text>
-  <!-- HIER: Inhaltsspezifische Darstellung (Befehle, Diagramme, Strukturen) -->
-  <!-- Befehls-Hinweis unten (optional) -->
-  <text x="320" y="145" text-anchor="middle" font-family="monospace" font-size="9" fill="AKZENTFARBE" opacity="0.5">$ befehl → Beschreibung</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 230" width="640" height="230">
+<style>
+  .f { font-family: sans-serif; }
+  .ti { animation: tia 11s infinite; }
+  @keyframes tia { 0%,3%{opacity:0} 7%,87%{opacity:1} 92%,100%{opacity:0} }
+  .c1 { animation: c1a 11s infinite; }
+  @keyframes c1a { 0%,12%{opacity:0} 18%,87%{opacity:1} 92%,100%{opacity:0} }
+  .c2 { animation: c2a 11s infinite; }
+  @keyframes c2a { 0%,30%{opacity:0} 36%,87%{opacity:1} 92%,100%{opacity:0} }
+  .c3 { animation: c3a 11s infinite; }
+  @keyframes c3a { 0%,48%{opacity:0} 54%,87%{opacity:1} 92%,100%{opacity:0} }
+  .c4 { animation: c4a 11s infinite; }
+  @keyframes c4a { 0%,65%{opacity:0} 71%,87%{opacity:1} 92%,100%{opacity:0} }
+  .ft { animation: fta 11s infinite; }
+  @keyframes fta { 0%,78%{opacity:0} 82%,87%{opacity:1} 92%,100%{opacity:0} }
+</style>
+<rect width="640" height="230" rx="12" fill="#0d1117"/>
+<rect width="640" height="38" rx="12" fill="#161b22"/>
+<rect y="26" width="640" height="12" fill="#161b22"/>
+<text class="f ti" x="320" y="24" text-anchor="middle" font-size="13" fill="#e6edf3" font-weight="bold" letter-spacing="1">[Section-Titel]</text>
+<!-- Karte 1 -->
+<g class="c1">
+  <rect x="16" y="46" width="140" height="158" rx="10" fill="#0d1520" stroke="#58a6ff" stroke-width="2"/>
+  <text x="86" y="88" text-anchor="middle" font-size="26" fill="#58a6ff">[EMOJI]</text>
+  <text class="f" x="86" y="112" text-anchor="middle" font-size="11" fill="#58a6ff" font-weight="bold">[Titel]</text>
+  <text class="f" x="86" y="130" text-anchor="middle" font-size="9" fill="#8b949e">[Zeile 1]</text>
+  <text class="f" x="86" y="145" text-anchor="middle" font-size="9" fill="#8b949e">[Zeile 2]</text>
+</g>
+<!-- Karte 2 -->
+<g class="c2">
+  <rect x="168" y="46" width="140" height="158" rx="10" fill="#0a1a0d" stroke="#3fb950" stroke-width="2"/>
+  <text x="238" y="88" text-anchor="middle" font-size="26" fill="#3fb950">[EMOJI]</text>
+  <text class="f" x="238" y="112" text-anchor="middle" font-size="11" fill="#3fb950" font-weight="bold">[Titel]</text>
+  <text class="f" x="238" y="130" text-anchor="middle" font-size="9" fill="#8b949e">[Zeile 1]</text>
+  <text class="f" x="238" y="145" text-anchor="middle" font-size="9" fill="#8b949e">[Zeile 2]</text>
+</g>
+<!-- Karte 3 -->
+<g class="c3">
+  <rect x="320" y="46" width="140" height="158" rx="10" fill="#1a0f08" stroke="#f0883e" stroke-width="2"/>
+  <text x="390" y="88" text-anchor="middle" font-size="26" fill="#f0883e">[EMOJI]</text>
+  <text class="f" x="390" y="112" text-anchor="middle" font-size="11" fill="#f0883e" font-weight="bold">[Titel]</text>
+  <text class="f" x="390" y="130" text-anchor="middle" font-size="9" fill="#8b949e">[Zeile 1]</text>
+  <text class="f" x="390" y="145" text-anchor="middle" font-size="9" fill="#8b949e">[Zeile 2]</text>
+</g>
+<!-- Karte 4 -->
+<g class="c4">
+  <rect x="472" y="46" width="152" height="158" rx="10" fill="#180a0a" stroke="#f85149" stroke-width="2"/>
+  <text x="548" y="88" text-anchor="middle" font-size="26" fill="#f85149">[EMOJI]</text>
+  <text class="f" x="548" y="112" text-anchor="middle" font-size="11" fill="#f85149" font-weight="bold">[Titel]</text>
+  <text class="f" x="548" y="130" text-anchor="middle" font-size="9" fill="#8b949e">[Zeile 1]</text>
+  <text class="f" x="548" y="145" text-anchor="middle" font-size="9" fill="#8b949e">[Zeile 2]</text>
+</g>
+<text class="f ft" x="320" y="223" text-anchor="middle" font-size="9" fill="#6e7681">[Footer-Tipp]</text>
 </svg>
 ```
 
@@ -465,11 +534,11 @@ Das thematische Symbol soll zum Workshop-Thema passen:
 01-[titel]/
 ├── content.yaml
 └── images/
-    ├── lesson-header.svg              ← Lesson-Bild (640×360)
-    ├── section-01-[kurzname].svg      ← Section 1 Bild (640×160, Terminal-Card)
-    ├── section-02-[kurzname].svg      ← Section 2 Bild (640×160, Terminal-Card)
-    ├── section-03-[kurzname].svg      ← Section 3 Bild (640×160, Terminal-Card)
-    └── section-04-[kurzname].svg      ← Section 4 Bild (640×160, Terminal-Card)
+    ├── lesson-header.svg              ← Lesson-Bild (640×270, Hero-Stil)
+    ├── section-01-[kurzname].svg      ← Section 1 Bild (640×210-230, Infographic)
+    ├── section-02-[kurzname].svg      ← Section 2 Bild (640×210-230, Infographic)
+    ├── section-03-[kurzname].svg      ← Section 3 Bild (640×210-230, Infographic)
+    └── section-04-[kurzname].svg      ← Section 4 Bild (640×210-230, Infographic)
 ```
 
 #### Beispiel content.yaml mit Section-Bildern:

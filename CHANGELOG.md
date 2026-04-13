@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0
+- **BREAKING:** Section-Bilder redesigned — von 640×160 Terminal-Card auf 640×210–230 Educational Infographic
+- **BREAKING:** Kein Terminal-Fenster, keine macOS-Dots in Section-Bildern — stattdessen Karten mit farbigen Borders, Emojis, sans-serif
+- feat: Section-Bilder sind jetzt sprach-spezifisch (enthalten übersetzten Text)
+- feat: Lesson-Header neu — 640×270 Hero-Stil mit großem Emoji, Titel, Untertitel, 3 animierten Feature-Karten
+- feat: Sequentielle CSS-Animationen mit `@keyframes` — Karten blenden nacheinander ein (11s Loop)
+- docs: SVG-Vorlage für Lesson-Header und Section-Bilder aktualisiert
+- docs: Farbpalette aktualisiert (`#0d1117` Background, `#161b22` Header)
+
 ## 1.9.1
 - docs: Story Mode Navigation erklärt — Links/Rechts-Tippen springt Absatz (nicht Section), Sections haben idealerweise 2–6 Absätze, Entscheidungs-Examples ans Section-Ende
 
