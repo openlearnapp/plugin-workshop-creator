@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.8.0
+- feat: **quiz-scenes** — neuer Skill `/quiz-scenes <name>` generiert animiertes Multi-Mission-Quiz aus `content.yaml`
+- feat: Drei Rendering-Styles: `cinematic` (Parallax + Film-Grain), `neon` (Additive Blending + Perspektivgitter), `minimal` (Flat Geometric)
+- feat: Automatische Workshop-Typ-Erkennung — Sprach-Workshops → menschliche Figuren in Szenen, IT-Workshops → Terminal-Interface
+- feat: 5 Missionstypen: Command Quiz (3D-Karten), Lückentext, Output-Rätsel, Fehler-Detektor, Command Builder
+- feat: Semantisches Szenen-Mapping — Wortbedeutung bestimmt Atmosphäre (Begrüßung → Platz tagsüber, Nacht → Sternenhimmel, …)
+- feat: CSS 3D mit `transform-style:preserve-3d`, Karten-Flip bei korrekter Antwort, Maus-Tilt des gesamten Raums
+- docs: `skills/quiz-scenes/SKILL.md` mit vollständiger Referenz, Code-Snippets, Szenen-Mapping-Tabelle, Figuren-Proportionen
+- docs: README Skill-Tabelle aktualisiert
+
 ## 1.7.2
 - fix: Assessment-Format explizit als Warnung dokumentiert — NIEMALS einfache Strings als Options (erzeugt leere Radio-Buttons)
 - fix: SVG Dark-Mode-Regel: dunkler Hintergrund (#0d1117) empfohlen, kein übersetzungspflichtiger Text in Bildern

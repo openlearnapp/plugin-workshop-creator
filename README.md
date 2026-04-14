@@ -26,6 +26,7 @@ git clone https://github.com/openlearnapp/plugin-workshop-creator .claude/plugin
 | **publish-workshop** | `/publish-workshop [name]` | Publish to GitHub, deploy via GitHub Pages, create Pages setup issue |
 | **check-workshops** | `/check-workshops` | Show status of all workshops |
 | **import-workshop** | `/import-workshop` | Import a finished workshop from staging into the project |
+| **quiz-scenes** | `/quiz-scenes <name> [--style cinematic\|neon\|minimal]` | Generate animated scene quiz from content.yaml — human figures for language, terminal for IT |
 
 ## Architecture
 
